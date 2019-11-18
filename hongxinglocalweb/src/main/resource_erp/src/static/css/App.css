@@ -1,0 +1,21 @@
+
+.App {
+  text-align: center;
+}
+
+.logo {
+  height: 32px;
+  background: url("../images/1101.png");
+  background-size:166px 38px;
+  color: cadetblue;
+  margin: 12px 19px 19px 26px;
+}
+
+.Breadcrumb{
+  margin: 10px 19px -16px 23px; ;
+}
+
+.control-button{
+  cursor: pointer;
+}
+
