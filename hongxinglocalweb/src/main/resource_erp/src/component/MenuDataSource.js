@@ -34,7 +34,7 @@ let MenuDataSource=[
         child:[
             {
                 img:"file-search",
-                childName:"用户管理",
+                childName:"记录",
                 url:"/datatable/TableOne",
             }
         ]

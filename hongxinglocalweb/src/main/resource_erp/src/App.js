@@ -48,28 +48,6 @@ class App extends Component{
         }
         return <Redirect to="/Response/R403" />;
     }
-    //
-    // /**
-    //  * 工具 - 判断当前用户是否有该路由权限，如果没有就跳转至401页
-    //  * @pathname: 路由路径
-    //  * **/
-    // checkRouterPower(pathname) {
-    //     let menus;
-    //     if (this.props.menus && this.props.menus.length) {
-    //         menus = this.props.menus;
-    //     } else if (sessionStorage.getItem("userinfo")) {
-    //         menus = JSON.parse(tools.uncompile(sessionStorage.getItem("userinfo")))
-    //             .menus;
-    //     }
-    //     const m = menus.map(item => item.url.replace(/^\//, "")); // 当前用户拥有的所有菜单
-    //     const urls = pathname.split("/").filter(item => !!item);
-    //     for (let i = 0; i < urls.length; i++) {
-    //         if (!m.includes(urls[i])) {
-    //             return false;
-    //         }
-    //     }
-    //     return true;
-    // }
 
     //退出清除token
     cleanToken=()=>{
@@ -148,13 +126,20 @@ class App extends Component{
                                     fontSize:18,
                                     margin:"1.2% 0 0 1.5%"
                                 }}/>
-                            <Popover content={content} title="全局设置" overlayStyle={{width:170}} >
-                                <Icon type="setting" style={{margin:'0%  2%  0  86%'}}/>
-                            </Popover>
-                            <Dropdown overlay={menu} placement="bottomCenter" >
-                                <Avatar size={40}  src={avatar}/>
-                            </Dropdown>
-
+                            <span
+                                className="control-button"
+                            >
+                                <Popover content={content} title="全局设置" overlayStyle={{width:170}} >
+                                    <Icon type="setting" style={{margin:'0%  2%  0  86%'}}/>
+                                </Popover>
+                            </span>
+                            <span
+                                className="control-button"
+                            >
+                                <Dropdown overlay={menu} placement="bottomCenter" >
+                                    <Avatar size={40}  src={avatar}/>
+                                </Dropdown>
+                            </span>
                         </Header>
                         <Station   location={this.props.location}/>
                         <Content

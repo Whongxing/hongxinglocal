@@ -5,7 +5,7 @@ class TableOne extends Component{
     render() {
         return (
             <div>
-
+                记录
             </div>
         )
     };

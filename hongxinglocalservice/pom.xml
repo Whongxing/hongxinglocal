@@ -11,5 +11,21 @@
 
     <artifactId>hongxinglocalservice</artifactId>
 
-
+    <dependencies>
+        <dependency>
+            <groupId>hong.xing.local</groupId>
+            <artifactId>hongxinglocaldao</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.16.22</version>
+        </dependency>
+        <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-context</artifactId>
+           <version>RELEASE</version>
+        </dependency>
+    </dependencies>
 </project>
