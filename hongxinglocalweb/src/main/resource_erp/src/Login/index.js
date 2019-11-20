@@ -15,7 +15,12 @@ import * as config from "../mock/config";
 class Login extends Component{
     constructor(props){
         super(props);
+        this.state={
+            path:[],
+            data:[],
+        }
     }
+
 
 
     handleSubmit = (e) => {
@@ -24,33 +29,43 @@ class Login extends Component{
         let { from } = location.state || { from: { pathname: "/" } };
          this.props.form.validateFields((err,values)=>{
              if(!err){
-                 fakeAuth.authenticate(() => {
-                     console.log(values);
-                     localStorage.setItem("token",values.username);
-                     history.replace(from);
-                 });
+                 // fakeAuth.authenticate(() => {
+                 //     console.log(values);
+                 //     localStorage.setItem("token",values.username);
+                 //     history.replace(from);
+                 // });
                 console.log("Received values of form");
 
-                 // let url = config.baseUrl+"/Log/loginUser";
-                 // let props = {
-                 //     name:values.username,
-                 //     pasw:values.password,
-                 // };
-                 // let fetchOption = {
-                 //     method: 'POST',
-                 //     headers: {'Accept': 'application/json', 'Content-Type': 'application/json',},
-                 //     mode:'cors',
-                 //     body: JSON.stringify(props)
-                 // }
-                 //
-                 // fetch(url, fetchOption)
-                 //     .then(response => response.json())
-                 //     .then(responseJson => {
-                 //         console.log(responseJson);
-                 //
-                 //     }).catch(function (e) {
-                 //     message.error("网络错误");
-                 // });
+                 let url = config.baseUrl+"/Log/loginUser";
+                 let props = {
+                     username:values.username,
+                     password:values.password,
+                 };
+                 let fetchOption = {
+                     method: 'POST',
+                     headers: {'Accept': 'application/json', 'Content-Type': 'application/json',},
+                     mode:'cors',
+                     body: JSON.stringify(props)
+                 }
+
+                 fetch(url, fetchOption)
+                     .then(response => response.json())
+                     .then(responseJson => {
+                         console.log(responseJson);
+                         if(responseJson.path.length!==0&&responseJson.data.length!==0) {
+                             this.state.path = responseJson.path;
+                             this.state.data = responseJson.data;
+                             fakeAuth.authenticate(() => {
+                                 console.log(values);
+                                 localStorage.setItem("token", values.username);
+                                 history.replace(from);
+                             });
+                         }else{
+                             message.error("用户名密码不正确");
+                         }
+                     }).catch(function (e) {
+                     message.error("网络错误");
+                 });
 
              }
          });
