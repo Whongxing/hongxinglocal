@@ -9,6 +9,7 @@ import {
 } from 'antd';
 import '../static/css/index.css';
 import {fakeAuth} from '../routes/PrivateRoute';
+import * as config from "../mock/config";
 
 
 class Login extends Component{
@@ -22,14 +23,34 @@ class Login extends Component{
         let {history,location} = this.props;
         let { from } = location.state || { from: { pathname: "/" } };
          this.props.form.validateFields((err,values)=>{
-             if(!err&&values.username==="admin"&&values.password==="111111"){
+             if(!err){
                 console.log("Received values of form");
-                fakeAuth.authenticate(() => {
-                    localStorage.setItem("token","admin");
-                    history.replace(from);
-                });
-             }else{
-                 message.warning("用户名密码不正确");
+
+                 let url = config.baseUrl+"/Log/loginUser";
+                 let props = {
+                     name:values.username,
+                     pasw:values.password,
+                 };
+                 let fetchOption = {
+                     method: 'POST',
+                     headers: {'Accept': 'application/json', 'Content-Type': 'application/json',},
+                     mode:'cors',
+                     body: JSON.stringify(props)
+                 }
+
+                 fetch(url, fetchOption)
+                     .then(response => response.json())
+                     .then(responseJson => {
+                         console.log(responseJson);
+                         fakeAuth.authenticate(() => {
+                             console.log(values);
+                             localStorage.setItem("token",values.username);
+                             history.replace(from);
+                         });
+                     }).catch(function (e) {
+                     message.error("网络错误");
+                 });
+
              }
          });
         };

@@ -3,7 +3,6 @@ package hong.xing.local.web.hongxinglocalweb.controller;
 import hong.xing.local.System.SysMenuService;
 
 import java.util.Map;
-import java.util.*;
 
 import hong.xing.local.entity.SysMenu;
 import lombok.extern.slf4j.Slf4j;
@@ -39,7 +38,6 @@ public class SysMenuController {
     public int updateMenuData(@RequestBody  Map<String,Object> params){
         try {
             int n = sysMenuservice.updateMenuData(params);
-            log.info(n + " ");
             return n;
         }catch (Exception e){
             return -1;

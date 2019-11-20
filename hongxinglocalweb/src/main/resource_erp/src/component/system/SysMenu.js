@@ -210,16 +210,27 @@ class SysMenu extends Component{
                             switcherIcon={<Icon type="down" />}
                             onSelect={this.changeNode}
                         >
-                                <TreeNode icon={<Icon type="smile-o" />} title="根目录" key="0">
-                                <TreeNode icon={<Icon type="smile-o" />} title="首页" key="0-0"/>
-                                <TreeNode icon={<Icon type="smile-o" />} title="权限管理" key="0-1">
+                            <TreeNode icon={<Icon type="smile-o" />} title="根目录" key="0">
+                            <TreeNode icon={<Icon type="smile-o" />} title="首页" key="0-0"/>
+                            {/*{this.state.data.map((value,key)=>{*/}
+                            {/*        if(value.desc.toString().substr(0,2)==="0-"&&value.desc.toString().length===3){*/}
+                            {/*            return <TreeNode icon={<Icon type="smile-o" />} title={value.name} key={value.desc}>*/}
+                            {/*                        {this.state.data.map((value,key)=>{*/}
+                            {/*                            if(value.desc.toString().substr(0,3)==="0-1"&&value.desc.toString().length>3){*/}
+                            {/*                                return <TreeNode disabled icon={<Icon type="smile-o" />}  title={value.name} key={value.desc}/>*/}
+                            {/*                               }*/}
+                            {/*                        })*/}
+                            {/*                        }*/}
+                            {/*                   </TreeNode>*/}
+                            {/*        }*/}
+                            {/*})}*/}
+                               <TreeNode icon={<Icon type="smile-o" />} title="权限管理" key="0-1">
                                     <TreeNode disabled icon={<Icon type="smile-o" />} title="用户管理" key="0-1-0"/>
                                     <TreeNode disabled icon={<Icon type="smile-o" />} title="角色管理" key="0-1-1"/>
                                     <TreeNode disabled icon={<Icon type="smile-o" />} title="菜单管理" key="0-1-2"/>
                                 </TreeNode>
                                 <TreeNode icon={<Icon type="smile-o" />} title="报表查询" key="0-2">
                                     <TreeNode disabled icon={<Icon type="smile-o" />} title="记录" key="0-2-0"/>
-
                                 </TreeNode>
                             </TreeNode>
                         </Tree>
