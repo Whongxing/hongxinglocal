@@ -13,6 +13,8 @@ import enUS from 'antd/es/locale/en_US';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import Station from "./component/Station";
+import Home from "./component/Home";
+import Login from "./Login";
 
 
 moment.locale('zh_ch');
@@ -43,10 +45,10 @@ class App extends Component{
     //切换路由时后触发
     onEnter(Component, props) {
         console.log(props);
-        if (props.location.pathname!=='/') {
+        // if (props.location.pathname!=='/') {
             return <Component {...props} />;
-        }
-        return <Redirect to="/Response/R403" />;
+        // }
+        // return <Redirect to="/Response/R403" />;
     }
 
     //退出清除token
@@ -150,8 +152,6 @@ class App extends Component{
                                 minHeight: 280,
                             }}
                         >
-                            {/*<Switch>*/}
-                            {/*    <Redirect exact from="/" to="/Home" />*/}
                             {
                                 Routes.map((value,key)=>{
                                     return <Route key={key}  exact path={value.path}

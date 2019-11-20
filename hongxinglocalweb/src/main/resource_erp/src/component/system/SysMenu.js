@@ -16,9 +16,10 @@ class SysMenu extends Component{
         super(props);
         this.state={
             loading:true, //加载动画
-            treedata:null,//树加载数据参数
+            treedata:null,//树查询数据参数
             visible:false, //Modle
             modalType:"up",
+            data : [],
             columns : [
                 {
                     title: '序号',
@@ -87,7 +88,7 @@ class SysMenu extends Component{
                     )
                 },
             ],
-            data : []
+
         }
 
     }
@@ -172,7 +173,7 @@ class SysMenu extends Component{
     getData=()=>{
         let url = config.baseUrl+"/Sys/getMenuData";
         let props = {
-            desc:this.state.treedata
+            path:this.state.treedata
         };
         let fetchOption = {
             method: 'POST',
@@ -205,33 +206,44 @@ class SysMenu extends Component{
                         <Tree
                             showIcon
                             bordered
-                            defaultExpandedKeys={['0']}
+                            defaultExpandedKeys={['#']}
                             defaultSelectedKeys={['0']}
                             switcherIcon={<Icon type="down" />}
                             onSelect={this.changeNode}
                         >
-                            <TreeNode icon={<Icon type="smile-o" />} title="根目录" key="0">
-                            <TreeNode icon={<Icon type="smile-o" />} title="首页" key="0-0"/>
+                            <TreeNode icon={<Icon type="smile-o" />} title="根目录" key="#">
+                            <TreeNode icon={<Icon type="smile-o" />} title="首页" key="#/"/>
+                                <TreeNode icon={<Icon type="smile-o" />} title="权限管理" key="#/system">
+                                    {this.state.data.map((value,key)=>{
+                                        if(value.path.toString().substr(0,8)==="#/system"&&value.path.toString().length>8){
+                                            return <TreeNode disabled icon={<Icon type="smile-o" />}  title={value.name} key={value.path}/>
+                                        }
+                                    })
+                                    }
+                                </TreeNode>
+                                <TreeNode icon={<Icon type="smile-o" />} title="报表查询" key="#/datatable">
+                                    {this.state.data.map((value,key)=>{
+                                        if(value.path.toString().substr(0,11)==="#/datatable"&&value.path.toString().length>11){
+                                            return <TreeNode disabled icon={<Icon type="smile-o" />}  title={value.name} key={value.path}/>
+                                        }
+                                    })
+                                    }
+                                </TreeNode>
                             {/*{this.state.data.map((value,key)=>{*/}
-                            {/*        if(value.desc.toString().substr(0,2)==="0-"&&value.desc.toString().length===3){*/}
-                            {/*            return <TreeNode icon={<Icon type="smile-o" />} title={value.name} key={value.desc}>*/}
-                            {/*                        {this.state.data.map((value,key)=>{*/}
-                            {/*                            if(value.desc.toString().substr(0,3)==="0-1"&&value.desc.toString().length>3){*/}
-                            {/*                                return <TreeNode disabled icon={<Icon type="smile-o" />}  title={value.name} key={value.desc}/>*/}
-                            {/*                               }*/}
-                            {/*                        })*/}
-                            {/*                        }*/}
+                            {/*        if(value.path.toString().length===8||value.path.toString().length===11){*/}
+                            {/*            return <TreeNode icon={<Icon type="smile-o" />} title={value.name} key={value.path}>*/}
+                            {/*                  */}
                             {/*                   </TreeNode>*/}
                             {/*        }*/}
                             {/*})}*/}
-                               <TreeNode icon={<Icon type="smile-o" />} title="权限管理" key="0-1">
-                                    <TreeNode disabled icon={<Icon type="smile-o" />} title="用户管理" key="0-1-0"/>
-                                    <TreeNode disabled icon={<Icon type="smile-o" />} title="角色管理" key="0-1-1"/>
-                                    <TreeNode disabled icon={<Icon type="smile-o" />} title="菜单管理" key="0-1-2"/>
-                                </TreeNode>
-                                <TreeNode icon={<Icon type="smile-o" />} title="报表查询" key="0-2">
-                                    <TreeNode disabled icon={<Icon type="smile-o" />} title="记录" key="0-2-0"/>
-                                </TreeNode>
+                               {/*<TreeNode icon={<Icon type="smile-o" />} title="权限管理" key="#/system">*/}
+                               {/*     <TreeNode disabled icon={<Icon type="smile-o" />} title="用户管理" key="#/system/User"/>*/}
+                               {/*     <TreeNode disabled icon={<Icon type="smile-o" />} title="角色管理" key="#/system/Role"/>*/}
+                               {/*     <TreeNode disabled icon={<Icon type="smile-o" />} title="菜单管理" key="#/system/Menu"/>*/}
+                               {/* </TreeNode>*/}
+                               {/* <TreeNode icon={<Icon type="smile-o" />} title="报表查询" key="#/datatable">*/}
+                               {/*     <TreeNode disabled icon={<Icon type="smile-o" />} title="记录" key="#/datatable/TableOne"/>*/}
+                               {/* </TreeNode>*/}
                             </TreeNode>
                         </Tree>
                      </Card>
@@ -301,7 +313,7 @@ class SysMenu extends Component{
                             ],
                         })( <Radio.Group  style={{marginLeft:'15%'}}>
                                 <Radio value={1}>启用</Radio>
-                                <Radio value={2}>禁用</Radio>
+                                <Radio value={0}>禁用</Radio>
                              </Radio.Group>)}
                     </Form.Item>
 

@@ -18,5 +18,4 @@ public class LoginController {
     public void getMenuData(@RequestBody  Map<String,Object> params){
         log.info("login  name:  password{ } "+params+"");
     }
-
 }
