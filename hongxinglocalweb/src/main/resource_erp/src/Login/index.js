@@ -15,13 +15,7 @@ import * as config from "../mock/config";
 class Login extends Component{
     constructor(props){
         super(props);
-        this.state={
-            path:[],
-            data:[],
-        }
     }
-
-
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -29,11 +23,7 @@ class Login extends Component{
         let { from } = location.state || { from: { pathname: "/" } };
          this.props.form.validateFields((err,values)=>{
              if(!err){
-                 // fakeAuth.authenticate(() => {
-                 //     console.log(values);
-                 //     localStorage.setItem("token",values.username);
-                 //     history.replace(from);
-                 // });
+
                 console.log("Received values of form");
 
                  let url = config.baseUrl+"/Log/loginUser";
@@ -53,11 +43,8 @@ class Login extends Component{
                      .then(responseJson => {
                          console.log(responseJson);
                          if(responseJson.path.length!==0&&responseJson.data.length!==0) {
-                             this.state.path = responseJson.path;
-                             this.state.data = responseJson.data;
                              fakeAuth.authenticate(() => {
-                                 console.log(values);
-                                 localStorage.setItem("token", values.username);
+                                 localStorage.setItem("token", JSON.stringify(responseJson));
                                  history.replace(from);
                              });
                          }else{

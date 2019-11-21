@@ -20,7 +20,6 @@ import Login from "./Login";
 moment.locale('zh_ch');
 
 const { Header, Content, Footer, Sider } = Layout;
-
 class App extends Component{
     constructor(props) {
         super(props);
@@ -29,12 +28,18 @@ class App extends Component{
             theme: 'light' ,   //边框默认黑色(true)
             radio:1,             //国际化按钮
             locale: zhCN,       //国际化
+            path:[],
+            data:[],
         };
-
     }
 
-    componentDidMount() {
-
+    componentWillMount() {
+        let user = JSON.parse(localStorage.getItem("token"));
+        console.log("----------------------------------------------");
+        this.state.path = user.path;
+        this.state.data = user.data;
+        console.log(this.state.path);
+        console.log(this.state.data);
     }
 
     toggle = () => {
@@ -57,15 +62,12 @@ class App extends Component{
     }
     //改变side颜色
     changeTheme=value=>{
-        console.log(value);
         this.setState({
             theme: value ? 'dark' : 'light',
         });
-        console.log(this.state.theme);
     }
 
     changeLanguage = e => {
-        console.log('radio checked', e.target.value);
         this.setState({
             radio:e.target.value,
             locale: e.target.value===1?zhCN:enUS,
@@ -93,7 +95,7 @@ class App extends Component{
             <Menu style={{width:150}}>
                 <Menu.Item key="0">
                     <Icon type="user"
-                    /> {localStorage.getItem("token")}
+                    />
                 </Menu.Item>
                 <Menu.Item key="1" >
                     <Link to="/login"  onClick={()=>this.cleanToken()}>
@@ -116,7 +118,7 @@ class App extends Component{
                            theme={this.state.theme}
                     >
                         <div className="logo" />
-                        <SideMenu  theme={this.state.theme}/>
+                        <SideMenu  theme={this.state.theme}  path = {this.state.path}/>
                     </Sider>
                     <Layout  style={{overflow:"auto", height:"100vh"}}>
                         <Header style={{ background: '#fff', padding: 0 }} >
@@ -154,12 +156,13 @@ class App extends Component{
                         >
                             {
                                 Routes.map((value,key)=>{
-                                    return <Route key={key}  exact path={value.path}
-                                                  render={props => this.onEnter(value.component, props)}
 
-                                    />
+                                            return <Route key={key}  exact path={value.path}
+                                                          render={props => this.onEnter(value.component, props)}
 
-                                })}
+                                            />
+                                    })
+                                }
                             {/*</Switch>*/}
                         </Content>
                         <Footer style={{ textAlign: 'center' }}>admin ©2019 Created by WangHongxing</Footer>

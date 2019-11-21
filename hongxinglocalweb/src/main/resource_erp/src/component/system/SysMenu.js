@@ -173,7 +173,7 @@ class SysMenu extends Component{
     getData=()=>{
         let url = config.baseUrl+"/Sys/getMenuData";
         let props = {
-            path:this.state.treedata
+            desc:this.state.treedata
         };
         let fetchOption = {
             method: 'POST',
@@ -206,44 +206,29 @@ class SysMenu extends Component{
                         <Tree
                             showIcon
                             bordered
-                            defaultExpandedKeys={['#']}
+                            defaultExpandedKeys={['0']}
                             defaultSelectedKeys={['0']}
                             switcherIcon={<Icon type="down" />}
                             onSelect={this.changeNode}
                         >
-                            <TreeNode icon={<Icon type="smile-o" />} title="根目录" key="#">
-                            <TreeNode icon={<Icon type="smile-o" />} title="首页" key="#/"/>
-                                <TreeNode icon={<Icon type="smile-o" />} title="权限管理" key="#/system">
+                            <TreeNode icon={<Icon type="smile-o" />} title="全部菜单" key="0">
+                            <TreeNode icon={<Icon type="smile-o" />} title="首页" key="0-0"/>
+                                <TreeNode icon={<Icon type="smile-o" />} title="权限管理" key="0-1">
                                     {this.state.data.map((value,key)=>{
-                                        if(value.path.toString().substr(0,8)==="#/system"&&value.path.toString().length>8){
-                                            return <TreeNode disabled icon={<Icon type="smile-o" />}  title={value.name} key={value.path}/>
+                                        if(value.desc.toString().substr(0,3)==="0-1"&&value.path.toString().length>3){
+                                            return <TreeNode disabled icon={<Icon type="smile-o" />}  title={value.name} key={value.desc}/>
                                         }
                                     })
                                     }
                                 </TreeNode>
-                                <TreeNode icon={<Icon type="smile-o" />} title="报表查询" key="#/datatable">
+                                <TreeNode icon={<Icon type="smile-o" />} title="报表查询" key="0-2">
                                     {this.state.data.map((value,key)=>{
-                                        if(value.path.toString().substr(0,11)==="#/datatable"&&value.path.toString().length>11){
-                                            return <TreeNode disabled icon={<Icon type="smile-o" />}  title={value.name} key={value.path}/>
+                                        if(value.desc.toString().substr(0,3)==="0-2"&&value.path.toString().length>3){
+                                            return <TreeNode disabled icon={<Icon type="smile-o" />}  title={value.name} key={value.desc}/>
                                         }
                                     })
                                     }
                                 </TreeNode>
-                            {/*{this.state.data.map((value,key)=>{*/}
-                            {/*        if(value.path.toString().length===8||value.path.toString().length===11){*/}
-                            {/*            return <TreeNode icon={<Icon type="smile-o" />} title={value.name} key={value.path}>*/}
-                            {/*                  */}
-                            {/*                   </TreeNode>*/}
-                            {/*        }*/}
-                            {/*})}*/}
-                               {/*<TreeNode icon={<Icon type="smile-o" />} title="权限管理" key="#/system">*/}
-                               {/*     <TreeNode disabled icon={<Icon type="smile-o" />} title="用户管理" key="#/system/User"/>*/}
-                               {/*     <TreeNode disabled icon={<Icon type="smile-o" />} title="角色管理" key="#/system/Role"/>*/}
-                               {/*     <TreeNode disabled icon={<Icon type="smile-o" />} title="菜单管理" key="#/system/Menu"/>*/}
-                               {/* </TreeNode>*/}
-                               {/* <TreeNode icon={<Icon type="smile-o" />} title="报表查询" key="#/datatable">*/}
-                               {/*     <TreeNode disabled icon={<Icon type="smile-o" />} title="记录" key="#/datatable/TableOne"/>*/}
-                               {/* </TreeNode>*/}
                             </TreeNode>
                         </Tree>
                      </Card>
@@ -311,7 +296,7 @@ class SysMenu extends Component{
                                     message: '菜单状态必须选择',
                                 },
                             ],
-                        })( <Radio.Group  style={{marginLeft:'15%'}}>
+                        })( <Radio.Group  style={{marginLeft:'15%'}} >
                                 <Radio value={1}>启用</Radio>
                                 <Radio value={0}>禁用</Radio>
                              </Radio.Group>)}

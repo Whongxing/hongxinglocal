@@ -26,6 +26,7 @@ public class LoginController {
     @RequestMapping("/loginUser")
     public RoleArry getMenuData(@RequestBody  Map<String,Object> params){
         RoleArry  roleArry = new RoleArry();
+        roleArry.setName(params.get("username").toString());
         List<String> path = new ArrayList<>();
         List<String> data = new ArrayList<>();
         List<ResponseLogin>  list =   loginUserService.loginUser(params);

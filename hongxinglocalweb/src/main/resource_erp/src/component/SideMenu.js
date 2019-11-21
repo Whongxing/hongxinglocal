@@ -16,6 +16,10 @@ class SideMenu extends Component{
         }
     }
 
+    componentWillMount() {
+        console.log(this.props.path);
+    }
+
 
     onOpenChange = openKeys => {
         const latestOpenKey = openKeys.find(key => this.state.openKeys.indexOf(key) === -1);
@@ -37,7 +41,7 @@ class SideMenu extends Component{
             >
                 {
                     MenuDataSource.map((valueOne,key)=>{
-                        //遍历有二级菜单的主目录
+
                         if(valueOne.child!=null){
                             return (
                                 <SubMenu key={valueOne.key}
@@ -47,7 +51,7 @@ class SideMenu extends Component{
                                                 <span>{valueOne.name}</span>
                                             </span>
                                         }>
-                                    {/*//遍历二级菜单*/}
+
                                      {
                                          valueOne.child.map((valueTwo,key)=>{
                                              return(
@@ -73,6 +77,7 @@ class SideMenu extends Component{
                              }
                     })
                 }
+
             </Menu>
         )
     };
