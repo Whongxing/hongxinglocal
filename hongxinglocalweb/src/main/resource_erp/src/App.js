@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
 import { Layout, Menu, Icon,Dropdown,
-    Avatar,Switch,Popover, Radio ,
+    Avatar,Popover, Radio ,
     ConfigProvider,} from 'antd';
 import './static/css/App.css';
 import avatar from './static/images/people.jpg'
 import  Routes from "./routes/Config.js";
-import {Link,Route,Redirect,Router} from "react-router-dom";
+import {Link,Route,Switch,} from "react-router-dom";
 import {fakeAuth} from './routes/PrivateRoute';
 import SideMenu  from './component/SideMenu';
+import R403 from "./component/Res404/R403";
 import zhCN from 'antd/es/locale/zh_CN';
 import enUS from 'antd/es/locale/en_US';
 import moment from 'moment';
 import 'moment/locale/zh-cn';
 import Station from "./component/Station";
-import Home from "./component/Home";
-import Login from "./Login";
-
 
 moment.locale('zh_ch');
 
@@ -25,7 +23,7 @@ class App extends Component{
         super(props);
         this.state ={
             collapsed: false,  //判断菜单初始是否隐藏
-            theme: 'light' ,   //边框默认黑色(true)
+            theme: 'light' ,   //边框默认浅色
             radio:1,             //国际化按钮
             locale: zhCN,       //国际化
             user:[],
@@ -59,7 +57,7 @@ class App extends Component{
     //改变side颜色
     changeTheme=value=>{
         this.setState({
-            theme: value ? 'dark' : 'light',
+            theme: this.state.theme==="dark"?'light': 'dark',
         });
     }
 
@@ -74,12 +72,13 @@ class App extends Component{
         const { locale } = this.state;
         const content = (
             <div>
-                <Switch checkedChildren="浅"
-                        unCheckedChildren="深"
-                        checked={this.state.theme === 'dark'}
-                        onClick={this.changeTheme}
-                /><br/><hr/>
-                <Radio.Group onChange={this.changeLanguage} value={this.state.radio}>
+                <Radio.Group onChange={this.changeTheme}
+                             value={this.state.theme}>
+                    <Radio value="dark">深色</Radio>
+                    <Radio value="light">浅色</Radio>
+                </Radio.Group><br/><hr/>
+                <Radio.Group onChange={this.changeLanguage}
+                             value={this.state.radio}>
                     <Radio value={1}>中文组件</Radio>
                     <Radio value={2}>EnglishComponent</Radio>
                 </Radio.Group>
@@ -150,15 +149,25 @@ class App extends Component{
                                 minHeight: 280,
                             }}
                         >
+                            <Switch>
                             {
                                 Routes.map((value,key)=>{
-                                          return (
-                                                <Route key={key}  exact path={value.path}
-                                                          render={props => this.onEnter(value.component, props)}
+                                    return (
+                                                this.state.user.map((userdata,key)=>{
+                                                    if(value.key === userdata.data){
+                                                        return (
+                                                        <Route key={value.key}  exact path={value.path}
+                                                               render={props => this.onEnter(value.component, props)}
 
-                                            />)
+                                                        />)
+                                                    }
+                                                })
+
+                                    )
                                     })
                                 }
+                                <Route component={R403} />
+                            </Switch>
                         </Content>
                         <Footer style={{ textAlign: 'center' }}>admin ©2019 Created by WangHongxing</Footer>
                     </Layout>

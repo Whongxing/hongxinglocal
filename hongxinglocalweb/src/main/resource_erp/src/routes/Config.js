@@ -7,27 +7,33 @@ import R403 from "../component/Res404/R403";
 
 let Routes= [
     {
+        key:"Home",
         path:"/",
         component:Home,
 
     },
     {
+        key:"SysUser",
         path:"/system/User",
         component:SysUser
     },
     {
+        key:"SysMenu",
         path:"/system/Menu",
         component:SysMenu
     },
     {
+        key:"SysRole",
         path:"/system/Role",
         component:SysRole
     },
     {
+        key:"TablbOne",
         path:"/datatable/TableOne",
         component:TablbOne,
     },
     {
+        key:"R403",
         path:"/Response/R403",
         component:R403,
     },
