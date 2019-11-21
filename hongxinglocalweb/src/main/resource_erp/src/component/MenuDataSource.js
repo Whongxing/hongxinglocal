@@ -3,12 +3,12 @@ let MenuDataSource=[
         name:"首页",
         img:"home",
         url:"/",
-        exact:true
     },
     {
-        key:"sub2",  //控制只展开当前焦点菜单
+        key:"sub2",     //控制只展开当前焦点菜单
         name:"权限管理",
         img:"safety",
+        url:"/system",
         child:[
             {
                 img:"idcard",
@@ -31,6 +31,7 @@ let MenuDataSource=[
         key:"sub3",
         name:"报表查询",
         img:"table",
+        url:"/datatable",
         child:[
             {
                 img:"file-search",

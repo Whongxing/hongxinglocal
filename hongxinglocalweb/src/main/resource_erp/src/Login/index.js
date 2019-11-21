@@ -42,13 +42,13 @@ class Login extends Component{
                      .then(response => response.json())
                      .then(responseJson => {
                          console.log(responseJson);
-                         if(responseJson.path.length!==0&&responseJson.data.length!==0) {
+                         if(responseJson.length!==0){
                              fakeAuth.authenticate(() => {
                                  localStorage.setItem("token", JSON.stringify(responseJson));
                                  history.replace(from);
                              });
                          }else{
-                             message.error("用户名密码不正确");
+                             message.error("该用户名不可用");
                          }
                      }).catch(function (e) {
                      message.error("网络错误");

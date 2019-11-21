@@ -5,7 +5,7 @@ import { Layout, Menu, Icon,Dropdown,
 import './static/css/App.css';
 import avatar from './static/images/people.jpg'
 import  Routes from "./routes/Config.js";
-import {Link,Route,Redirect} from "react-router-dom";
+import {Link,Route,Redirect,Router} from "react-router-dom";
 import {fakeAuth} from './routes/PrivateRoute';
 import SideMenu  from './component/SideMenu';
 import zhCN from 'antd/es/locale/zh_CN';
@@ -28,18 +28,14 @@ class App extends Component{
             theme: 'light' ,   //边框默认黑色(true)
             radio:1,             //国际化按钮
             locale: zhCN,       //国际化
-            path:[],
-            data:[],
+            user:[],
         };
     }
 
     componentWillMount() {
         let user = JSON.parse(localStorage.getItem("token"));
-        console.log("----------------------------------------------");
-        this.state.path = user.path;
-        this.state.data = user.data;
-        console.log(this.state.path);
-        console.log(this.state.data);
+        this.state.user = user;
+
     }
 
     toggle = () => {
@@ -118,7 +114,7 @@ class App extends Component{
                            theme={this.state.theme}
                     >
                         <div className="logo" />
-                        <SideMenu  theme={this.state.theme}  path = {this.state.path}/>
+                        <SideMenu  theme={this.state.theme}  user = {this.state.user}/>
                     </Sider>
                     <Layout  style={{overflow:"auto", height:"100vh"}}>
                         <Header style={{ background: '#fff', padding: 0 }} >
@@ -156,14 +152,13 @@ class App extends Component{
                         >
                             {
                                 Routes.map((value,key)=>{
-
-                                            return <Route key={key}  exact path={value.path}
+                                          return (
+                                                <Route key={key}  exact path={value.path}
                                                           render={props => this.onEnter(value.component, props)}
 
-                                            />
+                                            />)
                                     })
                                 }
-                            {/*</Switch>*/}
                         </Content>
                         <Footer style={{ textAlign: 'center' }}>admin ©2019 Created by WangHongxing</Footer>
                     </Layout>

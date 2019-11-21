@@ -12,6 +12,8 @@ public class SysMenu implements Serializable {
     private String  name;
     //图片
     private String img;
+    //组件名字
+    private String  data;
     //路径
     private String path;
     //描述

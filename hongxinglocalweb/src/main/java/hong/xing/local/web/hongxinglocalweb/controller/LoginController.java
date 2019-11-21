@@ -3,6 +3,7 @@ package hong.xing.local.web.hongxinglocalweb.controller;
 import hong.xing.local.System.LoginUserService;
 import hong.xing.local.entity.ResponseLogin;
 import hong.xing.local.entity.RoleArry;
+import hong.xing.local.entity.SysMenu;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,19 +25,7 @@ public class LoginController {
 
     @CrossOrigin
     @RequestMapping("/loginUser")
-    public RoleArry getMenuData(@RequestBody  Map<String,Object> params){
-        RoleArry  roleArry = new RoleArry();
-        roleArry.setName(params.get("username").toString());
-        List<String> path = new ArrayList<>();
-        List<String> data = new ArrayList<>();
-        List<ResponseLogin>  list =   loginUserService.loginUser(params);
-        for(ResponseLogin login : list){
-             path.add(login.getMenu_path());
-             if(login.getMenu_data()!=null)  data.add(login.getMenu_data());
-        }
-        roleArry.setPath(path);
-        roleArry.setData(data);
-        return roleArry;
-
+    public List<SysMenu> getMenuData(@RequestBody  Map<String,Object> params){
+        return loginUserService.loginUser(params);
     }
 }
