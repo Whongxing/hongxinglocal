@@ -23,7 +23,7 @@ class App extends Component{
         super(props);
         this.state ={
             collapsed: false,  //判断菜单初始是否隐藏
-            theme: 'light' ,   //边框默认浅色
+            theme: 'dark' ,   //边框默认浅色
             radio:1,             //国际化按钮
             locale: zhCN,       //国际化
             user:[],

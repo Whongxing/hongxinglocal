@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
-import { Table,Tooltip,Icon,Tree,
-Row,Col,Card,message,Spin,Modal,Form,
-Input,Radio } from 'antd';
+import {
+    Table, Tooltip, Icon, Tree,
+    Row, Col, Card, message, Spin, Modal, Form,
+    Input, Radio, Button
+} from 'antd';
 import '../../static/css/App.css';
 import * as config from "../../mock/config";
 
@@ -92,7 +94,7 @@ class SysMenu extends Component{
         }
 
     }
-    componentWillMount() {
+    componentDidMount() {
         this.getData();
     }
     //打开弹框
@@ -131,7 +133,7 @@ class SysMenu extends Component{
 
                     let params ={
                         status:values.menu_status,
-                        name :values.menu_name,
+                        desc :values.menu_desc,
                     }
                     let fetchOption = {
                         method: 'POST',
@@ -236,6 +238,7 @@ class SysMenu extends Component{
                     <Col className="gutter-row" span={18} offset={1}>
                         <Spin size="large" spinning={this.state.loading}>
                             <Card>
+                            <Button type="primary" icon="plus-circle">添加菜单</Button>
                             <Table columns={this.state.columns}
                                    dataSource={this.state.data}
                                     pagination={

@@ -16,7 +16,7 @@ class SideMenu extends Component{
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         console.log("------------组装菜单----------------------------------");
         console.log(this.props.user);
         console.log("-------------------------------------------------");
@@ -86,7 +86,7 @@ class SideMenu extends Component{
                             <Menu.Item  key={valueOne.desc}>
                                 <Link to={valueOne.path}>
                                     <Icon type = {valueOne.img}/>
-                                    {valueOne.name}
+                                    <span>{valueOne.name}</span>
                                 </Link>
                             </Menu.Item>
                         )

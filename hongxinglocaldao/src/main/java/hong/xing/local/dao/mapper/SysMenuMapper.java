@@ -4,6 +4,7 @@ import hong.xing.local.entity.SysMenu;
 import  org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.UpdateProvider;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,8 @@ public interface SysMenuMapper {
     @SelectProvider(type= SysMenuSql.class , method ="selectMeun" )
     List<SysMenu> select( Map<String,Object> params);
 
-    @Update("update  hx_menu  set  menu_status=#{status} where menu_name=#{name}")
+//    @Update("update  hx_menu  set  menu_status=#{status} where menu_name=#{name}")
+    @UpdateProvider(type= SysMenuSql.class , method ="updateMenu" )
     int update( Map<String,Object> params);
 
 }

@@ -15,6 +15,7 @@ public class LoginUserService {
     @Resource
     private LoginUserMapper  loginUserMapper;
     public List<SysMenu> loginUser(Map<String,Object> params){
-       return  loginUserMapper.UserResponse(params);
+
+        return  loginUserMapper.UserResponse(params);
     }
 }

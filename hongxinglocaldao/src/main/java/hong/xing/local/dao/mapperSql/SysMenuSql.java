@@ -1,4 +1,5 @@
 package hong.xing.local.dao.mapperSql;
+import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Map;
@@ -12,6 +13,23 @@ public class SysMenuSql {
                 FROM("hx_menu");
                 if (desc!=null&&desc!="") {
                         WHERE("menu_desc like '"+desc+"-"+"%'");
+                }
+
+            }
+        }.toString();
+    }
+
+
+    public String  updateMenu(Map<String,Object> params){
+        return new SQL() {
+            {
+                String desc =(String) params.get("desc");
+                UPDATE("hx_menu");
+                SET("menu_status=#{status}");
+                if (desc.length()==3&&desc!="0-0") {
+                    WHERE("menu_desc like '"+desc+"%'");
+                }else{
+                    WHERE("menu_desc = #{desc}");
                 }
 
             }

@@ -19,3 +19,24 @@
   cursor: pointer;
 }
 
+.home_icon{
+  font-size: 26px;
+  color:cadetblue;
+}
+
+.home_content{
+  font-size: 16px;
+  margin: -20% 0% 0% 20%;
+}
+
+.home_name{
+  /*100条*/
+  font-size: 20px;
+}
+
+.home_people{
+  font-size: 16px;
+  margin: -7% 0% 0% 16%;
+  color:cadetblue;
+}
+
