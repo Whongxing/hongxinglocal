@@ -20,7 +20,6 @@ class SideMenu extends Component{
         console.log("------------组装菜单----------------------------------");
         console.log(this.props.user);
         console.log("-------------------------------------------------");
-
     }
 
 
@@ -39,49 +38,12 @@ class SideMenu extends Component{
         return (
             <Menu mode="inline"
                   theme={this.props.theme}
-                  openKeys={this.state.openKeys}
-                  onOpenChange={this.onOpenChange}
+                  // openKeys={this.state.openKeys}
+                  // onOpenChange={this.onOpenChange}
             >
-                {/*{*/}
-                {/*    MenuDataSource.map((valueOne,key)=>{*/}
-                {/*        if(valueOne.child!=null){*/}
-                {/*            return (*/}
-                {/*                <SubMenu key={valueOne.key}*/}
-                {/*                    title={*/}
-                {/*                            <span>*/}
-                {/*                                <Icon type = {valueOne.img}/>*/}
-                {/*                                <span>{valueOne.name}</span>*/}
-                {/*                            </span>*/}
-                {/*                        }>*/}
-
-                {/*                     {*/}
-                {/*                         valueOne.child.map((valueTwo,key)=>{*/}
-                {/*                             return(*/}
-                {/*                               <Menu.Item  key={valueTwo.url}>*/}
-                {/*                                   <Link to={valueTwo.url}>*/}
-                {/*                                       <Icon type = {valueTwo.img}/>*/}
-                {/*                                       {valueTwo.childName}*/}
-                {/*                                   </Link>*/}
-                {/*                               </Menu.Item>*/}
-                {/*                           )*/}
-                {/*                       })*/}
-                {/*                     }*/}
-                {/*                </SubMenu>*/}
-                {/*            )}else{*/}
-                {/*                return (*/}
-                {/*                    <Menu.Item key={valueOne.url}>*/}
-                {/*                        <Link to={valueOne.url}>*/}
-                {/*                            <Icon type = {valueOne.img}/>*/}
-                {/*                            <span>{valueOne.name}</span>*/}
-                {/*                        </Link>*/}
-                {/*                    </Menu.Item>*/}
-                {/*                );*/}
-                {/*             }*/}
-                {/*    })*/}
-                {/*}*/}
 
                 {this.props.user.map((valueOne,key)=>{
-                    if(valueOne.desc.toString()==="0-0"){
+                    if(valueOne.desc.toString().length===3&&valueOne.path!==""&&valueOne.path!==null){
                         return(
                             <Menu.Item  key={valueOne.desc}>
                                 <Link to={valueOne.path}>
@@ -90,7 +52,7 @@ class SideMenu extends Component{
                                 </Link>
                             </Menu.Item>
                         )
-                    }else if(valueOne.desc.toString().length===3){
+                    }else if(valueOne.desc.toString().length===3&&(valueOne.path===""||valueOne.path===null)){
                     return (
                         <SubMenu key={valueOne.desc}
                                  title={

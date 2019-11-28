@@ -2,8 +2,11 @@ package hong.xing.local.entity;
 
 import lombok.Data;
 
-import java.util.List;
 
+/**
+ * 目前未使用（可删）
+ * 2019/11/27
+ */
 @Data
 public class ResponseLogin {
     //返回路径

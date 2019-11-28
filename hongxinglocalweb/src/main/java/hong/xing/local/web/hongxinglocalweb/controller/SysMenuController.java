@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
 import javax.annotation.Resource;
 import java.util.List;
 
@@ -29,7 +28,6 @@ public class SysMenuController {
     @RequestMapping("/getMenuData")
     public List<SysMenu> getMenuData(@RequestBody  Map<String,Object> params){
             return sysMenuservice.getMenuData(params);
-
     }
 
 

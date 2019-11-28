@@ -5,7 +5,7 @@ import {
     Input,
     Icon,
     Card,
-    message
+    message,
 } from 'antd';
 import '../static/css/index.css';
 import {fakeAuth} from '../routes/PrivateRoute';
@@ -15,7 +15,11 @@ import * as config from "../mock/config";
 class Login extends Component{
     constructor(props){
         super(props);
+        this.state={
+            loading:false
+        }
     }
+
 
     handleSubmit = (e) => {
         e.preventDefault();
@@ -25,7 +29,7 @@ class Login extends Component{
              if(!err){
 
                 console.log("Received values of form");
-
+                this.state.loading = true;
                  let url = config.baseUrl+"/Log/loginUser";
                  let props = {
                      username:values.username,
@@ -42,6 +46,7 @@ class Login extends Component{
                      .then(response => response.json())
                      .then(responseJson => {
                          console.log(responseJson);
+                         //这里需要处理500错误，暂未处理
                          if(responseJson.length!==0){
                              fakeAuth.authenticate(() => {
                                  localStorage.setItem("token", JSON.stringify(responseJson));
@@ -98,6 +103,7 @@ class Login extends Component{
                     <Button type="primary"  onClick={this.handleSubmit}
                             className="login-form-button"
                             icon="unlock"
+                            loading={this.state.loading}
                     >
                         Log in
                     </Button>

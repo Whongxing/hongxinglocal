@@ -168,6 +168,9 @@ class SysMenu extends Component{
 
     //树节点查找
     changeNode=e=>{
+        this.setState({
+            loading:true
+        })
         this.state.treedata = e.toString();
         this.getData();
     }

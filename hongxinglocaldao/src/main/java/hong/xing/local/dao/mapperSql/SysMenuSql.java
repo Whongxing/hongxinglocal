@@ -1,5 +1,4 @@
 package hong.xing.local.dao.mapperSql;
-import org.apache.ibatis.annotations.Update;
 import org.apache.ibatis.jdbc.SQL;
 
 import java.util.Map;

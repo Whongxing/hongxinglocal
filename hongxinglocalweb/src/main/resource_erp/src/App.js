@@ -33,6 +33,7 @@ class App extends Component{
     componentWillMount() {
         let user = JSON.parse(localStorage.getItem("token"));
         this.state.user = user;
+        console.log(this.state.user);
 
     }
 
@@ -102,7 +103,7 @@ class App extends Component{
         );
         return (
             <ConfigProvider locale={locale}>
-                <Layout  >
+                <Layout>
                     <Sider trigger={null}
                            collapsible
                            collapsed={this.state.collapsed}
@@ -162,7 +163,6 @@ class App extends Component{
                                                         />)
                                                     }
                                                 })
-
                                     )
                                     })
                                 }
