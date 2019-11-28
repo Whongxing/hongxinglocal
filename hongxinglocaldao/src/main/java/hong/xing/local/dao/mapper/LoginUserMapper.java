@@ -2,6 +2,7 @@ package hong.xing.local.dao.mapper;
 
 import hong.xing.local.entity.ResponseLogin;
 import hong.xing.local.entity.SysMenu;
+import hong.xing.local.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 
@@ -16,5 +17,10 @@ public interface LoginUserMapper {
              "(select role_id  from  hx_user_role  WHERE  user_id  in" +
              "(select  id  from  hx_user  WHERE  `name` =#{username} and password = #{password}))) ORDER BY menu_desc")
      List<SysMenu>  UserResponse(Map<String,Object> params);
+
+     @Select(
+             "select  count('name') from  hx_user  WHERE  `name` =#{username} and password = #{password}"
+     )
+     int SelectUser(Map<String,Object> params);
 
 }

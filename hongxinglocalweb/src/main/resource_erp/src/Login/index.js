@@ -47,13 +47,16 @@ class Login extends Component{
                      .then(responseJson => {
                          console.log(responseJson);
                          //这里需要处理500错误，暂未处理
-                         if(responseJson.length!==0){
+                         if(responseJson.menu!==null&&responseJson.name!=null){
                              fakeAuth.authenticate(() => {
                                  localStorage.setItem("token", JSON.stringify(responseJson));
                                  history.replace(from);
                              });
-                         }else{
-                             message.error("该用户名不可用");
+                           }else{
+                             message.error(responseJson.mas);
+                             this.setState({
+                                 loading:false
+                             })
                          }
                      }).catch(function (e) {
                      message.error("网络错误");

@@ -2,6 +2,7 @@ package hong.xing.local.System;
 
 import hong.xing.local.dao.mapper.LoginUserMapper;
 import hong.xing.local.entity.SysMenu;
+import hong.xing.local.entity.SysUser;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -16,5 +17,11 @@ public class LoginUserService {
     public List<SysMenu> loginUser(Map<String,Object> params){
 
         return  loginUserMapper.UserResponse(params);
+    }
+
+    public int selectUser(Map<String,Object> params){
+
+        return loginUserMapper.SelectUser(params);
+
     }
 }

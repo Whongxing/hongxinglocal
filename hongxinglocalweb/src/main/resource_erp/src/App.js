@@ -26,14 +26,17 @@ class App extends Component{
             theme: 'dark' ,   //边框默认浅色
             radio:1,             //国际化按钮
             locale: zhCN,       //国际化
-            user:[],
+            menu:[],
+            name:undefined,
         };
     }
 
     componentWillMount() {
         let user = JSON.parse(localStorage.getItem("token"));
-        this.state.user = user;
-        console.log(this.state.user);
+        this.state.menu = user.menu;
+        this.state.name = user.name;
+        console.log("************************************");
+        console.log(user);
 
     }
 
@@ -91,7 +94,7 @@ class App extends Component{
             <Menu style={{width:150}}>
                 <Menu.Item key="0">
                     <Icon type="user"
-                    />
+                    />   {this.state.name}
                 </Menu.Item>
                 <Menu.Item key="1" >
                     <Link to="/login"  onClick={()=>this.cleanToken()}>
@@ -114,7 +117,7 @@ class App extends Component{
                            theme={this.state.theme}
                     >
                         <div className="logo" />
-                        <SideMenu  theme={this.state.theme}  user = {this.state.user}/>
+                        <SideMenu  theme={this.state.theme}  menu = {this.state.menu}/>
                     </Sider>
                     <Layout  style={{overflow:"auto", height:"100vh"}}>
                         <Header style={{ background: '#fff', padding: 0 }} >
@@ -154,7 +157,7 @@ class App extends Component{
                             {
                                 Routes.map((value,key)=>{
                                     return (
-                                                this.state.user.map((userdata,key)=>{
+                                                this.state.menu.map((userdata,key)=>{
                                                     if(value.key === userdata.data){
                                                         return (
                                                         <Route key={value.key}  exact path={value.path}

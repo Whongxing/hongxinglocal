@@ -2,15 +2,20 @@ package hong.xing.local.entity;
 
 import lombok.Data;
 
+import java.util.List;
+
 
 /**
- * 目前未使用（可删）
+ *  wanghongxing
  * 2019/11/27
  */
 @Data
 public class ResponseLogin {
-    //返回路径
-    private String  menu_path;
-    //返回的组件名称
-    private String  menu_data;
+
+    private String  name;
+
+    private String  mas;
+
+    private List<SysMenu> menu;
+
 }

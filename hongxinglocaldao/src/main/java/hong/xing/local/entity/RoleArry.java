@@ -4,6 +4,9 @@ import lombok.Data;
 
 import java.util.List;
 
+/**
+ * not use
+ */
 @Data
 public class RoleArry {
     private  String  name;

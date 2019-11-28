@@ -5,6 +5,8 @@ import hong.xing.local.System.SysMenuService;
 import java.util.Map;
 
 import hong.xing.local.entity.SysMenu;
+import hong.xing.local.web.hongxinglocalweb.annotation.Aspect.LogType;
+import hong.xing.local.web.hongxinglocalweb.annotation.WriteLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -33,10 +35,11 @@ public class SysMenuController {
 
     @CrossOrigin
     @RequestMapping("/updateMenuData")
+    @WriteLog(desc = "更新数据",logType = LogType.UPDATE)
     public int updateMenuData(@RequestBody  Map<String,Object> params){
         try {
             int n = sysMenuservice.updateMenuData(params);
-            return n;
+            return n;  
         }catch (Exception e){
             return -1;
         }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import  MenuDataSource from "./MenuDataSource";
 import {Menu,Icon} from "antd";
 import {Link} from "react-router-dom";
 
@@ -11,14 +10,15 @@ class SideMenu extends Component{
         this.state = {
             openKeys: [],
         };
-        for(let i= 0;i<MenuDataSource.length;i++){
-            rootSubmenuKeys[i] = MenuDataSource[i].key;
+        for(let i= 0;i<this.props.menu.length;i++){
+            if(this.props.menu[i].desc.toString().length===3)
+            rootSubmenuKeys[i] = this.props.menu[i].desc;
         }
     }
 
     componentDidMount() {
-        console.log("------------组装菜单----------------------------------");
-        console.log(this.props.user);
+        console.log("---------------------组装菜单-------------------------");
+        console.log(this.props.menu);
         console.log("-------------------------------------------------");
     }
 
@@ -38,11 +38,11 @@ class SideMenu extends Component{
         return (
             <Menu mode="inline"
                   theme={this.props.theme}
-                  // openKeys={this.state.openKeys}
-                  // onOpenChange={this.onOpenChange}
+                  openKeys={this.state.openKeys}
+                  onOpenChange={this.onOpenChange}
             >
 
-                {this.props.user.map((valueOne,key)=>{
+                {this.props.menu.map((valueOne,key)=>{
                     if(valueOne.desc.toString().length===3&&valueOne.path!==""&&valueOne.path!==null){
                         return(
                             <Menu.Item  key={valueOne.desc}>
@@ -61,7 +61,7 @@ class SideMenu extends Component{
                                             <span>{valueOne.name}</span>
                                      </span>
                                  }>
-                            {this.props.user.map((valueTwo,key)=>{
+                            {this.props.menu.map((valueTwo,key)=>{
                                  if(valueTwo.desc.substr(0,3)===valueOne.desc.toString()&&valueTwo.desc.length>3){
                                      return(
                                              <Menu.Item  key={valueTwo.desc}>
