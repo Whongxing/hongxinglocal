@@ -11,6 +11,10 @@ import java.util.Date;
 public class LogData {
 
     /**
+     * 主键
+     */
+    private  String  key;
+    /**
      * 操作人
      */
     private  String  log_name;
@@ -27,4 +31,9 @@ public class LogData {
      * 操作时间
      */
     private Date  log_date;
+
+    /**
+     * 操作数据
+     */
+    private String  log_data;
 }

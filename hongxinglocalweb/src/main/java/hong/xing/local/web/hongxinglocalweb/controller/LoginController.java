@@ -30,7 +30,7 @@ public class LoginController {
     public ResponseLogin getMenuData(@RequestBody  Map<String,Object> params){
          ResponseLogin  login =  new ResponseLogin();
          int u = loginUserService.selectUser(params);
-         if(u==0){
+         if(u<=0){
              login.setMas("用户不可用");
              return login;
          }else{

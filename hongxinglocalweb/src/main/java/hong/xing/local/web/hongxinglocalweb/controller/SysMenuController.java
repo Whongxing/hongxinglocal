@@ -35,7 +35,7 @@ public class SysMenuController {
 
     @CrossOrigin
     @RequestMapping("/updateMenuData")
-    @WriteLog(desc = "更新数据",logType = LogType.UPDATE)
+    @WriteLog(desc = "禁用或启用了某个菜单",logType = LogType.UPDATE)
     public int updateMenuData(@RequestBody  Map<String,Object> params){
         try {
             int n = sysMenuservice.updateMenuData(params);
