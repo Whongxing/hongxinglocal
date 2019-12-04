@@ -27,7 +27,6 @@ class Login extends Component{
         let { from } = location.state || { from: { pathname: "/" } };
          this.props.form.validateFields((err,values)=>{
              if(!err){
-
                 console.log("Received values of form");
                 this.state.loading = true;
                  let url = config.baseUrl+"/Log/loginUser";
@@ -87,7 +86,7 @@ class Login extends Component{
                     })(
                         <Input
                             prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                            placeholder="admin"
+                            placeholder="管理员：admin"
                         />,
                     )}
                 </Form.Item>
@@ -98,7 +97,7 @@ class Login extends Component{
                         <Input
                             prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
                             type="password"
-                            placeholder="111111"
+                            placeholder="密码：111"
                         />,
                     )}
                 </Form.Item>

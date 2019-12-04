@@ -1,7 +1,8 @@
+import React, { Component } from 'react';
 import { Tree } from 'antd';
 
 
-class Demo extends React.Component {
+class E extends React.Component {
 
 
     render() {

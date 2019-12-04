@@ -5,6 +5,7 @@ import hong.xing.local.entity.ResponseLogin;
 import hong.xing.local.entity.SysMenu;
 import hong.xing.local.entity.SysUser;
 import hong.xing.local.web.hongxinglocalweb.LoginContext.LoginContextUser;
+import hong.xing.local.web.hongxinglocalweb.annotation.Aspect.LogType;
 import hong.xing.local.web.hongxinglocalweb.annotation.WriteLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;

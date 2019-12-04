@@ -1,8 +1,5 @@
 package hong.xing.local.dao.mapper;
-
-import hong.xing.local.entity.ResponseLogin;
 import hong.xing.local.entity.SysMenu;
-import hong.xing.local.entity.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
 

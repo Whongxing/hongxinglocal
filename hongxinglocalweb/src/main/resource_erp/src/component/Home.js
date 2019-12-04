@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
-import { DatePicker,Collapse,Row,Col,Card,Icon,Avatar } from 'antd';
+import { Divider,Collapse,Row,Col,Card,Icon,Avatar } from 'antd';
+import EcharsHome  from './util/EcharsHome';
 import '../static/css/App.css'
-const { Meta } = Card;
-
 const { Panel } = Collapse;
 
 class Home extends Component{
@@ -76,6 +75,21 @@ class Home extends Component{
                         <p>此处可以添加一段描述或设置</p>
                     </Panel>
                 </Collapse>
+                <Row gutter={16} style={{marginTop:"0.4%"}}>
+                    <Col span={19}>
+                        <Card>
+                            <EcharsHome/>
+                        </Card>
+                    </Col>
+                    <Col span={5}>
+                        <Card>
+                            <h3><b>系统说明</b></h3>
+                            <Divider/>
+                            例如：通知！<br/>
+                             首页个人信息中可以修改密码
+                        </Card>
+                    </Col>
+                </Row>
             </div>
         )
     };

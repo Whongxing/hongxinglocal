@@ -1,11 +1,26 @@
 import React, { Component } from 'react';
-import {Avatar,Input, Button, Divider,
-    Icon, Table, Tag, Tooltip} from "antd";
+import {
+    Button, Divider, Form,
+    Icon, Input, message, Modal,
+    Popconfirm, Radio, Table, Tag, Tooltip, Spin
+} from "antd";
+import  MyRoleTree  from  '../util/MyRoleTree'
+import * as config from "../../mock/config";
+import '../../static/css/App.css'
 
+
+const formItemLayout = {
+    labelCol: { span: 5 },
+    wrapperCol: { span: 18 },
+};
 class SysUser extends Component{
     constructor(props) {
         super(props);
         this.state = {
+            loading:true,
+            modalVisible:false,
+            visible:false,
+            modalType:"up",//modal的title
             columns:[
                 {
                     title: '用户名',
@@ -16,38 +31,28 @@ class SysUser extends Component{
                 },
                 {
                     title: '别名',
-                    dataIndex: 'nick_name',
+                    dataIndex: 'user_nick',
                     key: 'nick',
                     align:'center',
-                },
-                {
-                    title: '角色',
-                    key: 'role',
-                    dataIndex: 'roles',
-                    align:'center',
-                    render: tags => (
-                        <span>
-                        {tags.map(tag => {
-                            let color = tag==='超级管理员' ? 'volcano' : 'green';
-                            return (
-                                <Tag color={color} key={tag}>
-                                    {tag.toUpperCase()}
-                                </Tag>
-                            );
-                        })}
-                      </span>
-                    ),
+                    render: (text, record) => {
+                      let color =   record.key%2===0?"red":"green";
+                        return (
+                            <Tag color={color}>
+                                {text}
+                            </Tag>
+                        );
+                    }
                 },
                 {
                     title: '手机号',
-                    key: 'iphone',
-                    dataIndex: 'user_iphone',
+                    key: 'phone',
+                    dataIndex: 'user_phone',
                     align:'center',
                 },
                 {
                     title: '创建时间',
-                    key: 'data',
-                    dataIndex: 'user_create',
+                    key: 'date',
+                    dataIndex: 'user_date',
                     align:'center',
                 },
                 {
@@ -76,7 +81,7 @@ class SysUser extends Component{
                             <span
                                 key="0"
                                 className="control-button"
-
+                                onClick={()=>this.handleOk(record,"see")}
                             >
                                 <Tooltip placement="top" title="查看">
                                   <Icon type="eye" style={{color:'cadetblue'}}/>
@@ -84,11 +89,12 @@ class SysUser extends Component{
                                 <Divider type="vertical"/>
                               </span>
                         );
+                        if(record.user_name!=="admin") {
                         controls.push(
                             <span
                                 key="1"
                                 className="control-button"
-
+                                onClick={()=>this.handleOk(record,"up")}
                             >
                                 <Tooltip placement="top" title="修改">
                                   <Icon type="form" style={{color:'cadetblue'}}/>
@@ -100,7 +106,7 @@ class SysUser extends Component{
                             <span
                                 key="2"
                                 className="control-button"
-
+                                onClick={()=>this.RoleTree()}
                             >
                                 <Tooltip placement="top" title="分配角色">
                                   <Icon type="crown" style={{color:'cadetblue'}}/>
@@ -108,16 +114,23 @@ class SysUser extends Component{
                                 <Divider type="vertical"/>
                               </span>
                         );
-                        if(record.user_name!=="admin") {
                             controls.push(
                                 <span
                                     key="3"
                                     className="control-button"
-
                                 >
+                                  <Popconfirm
+                                      title="警告,确认删除吗?"
+                                      icon={<Icon type="question-circle-o" style={{ color: 'red' }} />}
+                                      // onConfirm={confirm}
+                                      // onCancel={cancel}
+                                      okText="Yes"
+                                      cancelText="No"
+                                      >
                                 <Tooltip placement="top" title="删除">
                                   <Icon type="delete" style={{color: 'red'}}/>
                                 </Tooltip>
+                                 </Popconfirm>
                               </span>
                             );
                         }
@@ -126,47 +139,165 @@ class SysUser extends Component{
                 },
             ],
             data: [
-                {
-                    key: '1',
-                    role_id: 1,
-                    user_name: 'admin',
-                    nick_name: '王红星',
-                    user_create:'0000-00-00 00:00:00',
-                    user_iphone:'13188795423',
-                    user_status:1,
-                    roles: ['超级管理员', '普通用户'],
-                },
-                {
-                    key: '2',
-                    user_name: 'www',
-                    nick_name: '权限测试人员',
-                    role_remark: '没有管理菜单的权限',
-                    user_create:'0000-00-00 00:00:00',
-                    user_iphone:'13188795423',
-                    user_status:0,
-                    roles: ['普通用户'],
-                },
-                {
-                    key: '3',
-                    user_name: 'test',
-                    nick_name: '权限测试人员',
-                    role_remark: '没有权限',
-                    user_create:'0000-00-00 00:00:00',
-                    user_iphone:'13188795423',
-                    user_status:2,
-                    roles: ['普通用户'],
-                },
             ],
         }
     }
+
+    componentDidMount() {
+        this.getData();
+    }
+
+    getData=()=>{
+        let url = config.baseUrl+"/Sys/getAllUser";
+        let props = {
+        };
+        let fetchOption = {
+            method: 'POST',
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json',},
+            mode:'cors',
+            body: JSON.stringify(props)
+        }
+
+        fetch(url, fetchOption)
+            .then(response => response.json())
+            .then(responseJson => {
+                console.log(responseJson);
+                this.setState({
+                    data:responseJson.data,
+                    loading:false,
+                })
+            }).catch(function (e) {
+            message.error("网络错误");
+        });
+    }
+
+    RoleTree=()=>{
+        this.setState({
+            visible:true,
+        })
+
+    }
+
+    handleOk=(data,type)=> {
+        const {form} = this.props;
+        if (type === "add") {
+            form.resetFields();
+        } else {
+            form.setFieldsValue({
+                user_name:data.user_name,
+                user_nick:data.user_nick,
+                user_phone:data.user_phone,
+                user_status:data.user_status,
+            })
+        }
+        this.setState({
+            modalVisible: true,
+            modalType: type,
+        })
+      }
+
+    onClose=()=>{
+        this.setState({
+            visible:false,
+            modalVisible:false,
+        })
+    }
+
+
     render(){
+        const { getFieldDecorator } = this.props.form;
         return (
             <div>
-                <Button type="primary" icon="plus-circle">添加用户</Button>
-                <Table columns={this.state.columns} dataSource={this.state.data} />
+                <div  className="option_select">
+                    条件检索：&nbsp;&nbsp;&nbsp;&nbsp;
+                    <Input placeholder="用户名称"/>
+
+                    <Divider type='vertical'/>
+                    <Button type="primary" icon="search"
+                            >搜索
+                    </Button>
+
+                    <Divider type='vertical'/>
+                    <Button type="primary" icon="plus-circle"
+                            onClick={()=>this.handleOk(null,"add")}>添加用户
+                    </Button>
+                </div>
+
+                <Spin size="large" spinning={this.state.loading}>
+                    <Table columns={this.state.columns} dataSource={this.state.data} />
+                </Spin>
+                <Modal
+                    title={
+                        {add: "新增", up: "修改信息", see: "查看"}[this.state.modalType]
+                    }
+                    visible={this.state.modalVisible}
+                    onOk={()=>this.onClose()}
+                    onCancel={()=>this.onClose()}
+                >
+                    <Form.Item {...formItemLayout} label="用户名称">
+                        {getFieldDecorator('user_name', {
+                            rules: [
+                                {
+                                    required: true,
+                                    message: '用户名称必须填写',
+                                },
+                            ],
+                        })(<Input placeholder="用户名称"
+                                  disabled={this.state.modalType==="up"||this.state.modalType==="see"}
+                        />)}
+                    </Form.Item>
+                    <Form.Item {...formItemLayout} label="用户别名">
+                        {getFieldDecorator('user_nick', {
+
+                        })(<Input placeholder="用户别名"
+                                  disabled={this.state.modalType==="see"}
+                        />)}
+                    </Form.Item>
+                    <Form.Item {...formItemLayout} label="用户密码">
+                        {getFieldDecorator('password', {
+                            rules: [
+                                {
+                                    required: true,
+                                    message: '用户密码必须填写',
+                                },]
+                        })(<Input placeholder="密码"
+                                  type="password"
+                                  disabled={this.state.modalType==="up"||this.state.modalType==="see"}
+                        />)}
+                    </Form.Item>
+                    <Form.Item {...formItemLayout} label="手机号：">
+                        {getFieldDecorator('user_phone', {
+
+                        })(<Input placeholder="用户手机号"
+                                  disabled={this.state.modalType==="see"}
+                        />)}
+                    </Form.Item>
+                    <Form.Item {...formItemLayout} label="用户状态">
+                        {getFieldDecorator('user_status', {
+                            rules: [
+                                {
+                                    required: true,
+                                    message: '用户状态必须选择',
+                                },
+                            ],
+                        })( <Radio.Group  style={{marginLeft:'15%'}}
+                                          disabled={this.state.modalType==="see"}>
+                            <Radio value={1}>启用</Radio>
+                            <Radio value={0}>禁用</Radio>
+                            <Radio value={-1} disabled>已锁定</Radio>
+                        </Radio.Group>)}
+                    </Form.Item>
+
+                </Modal>
+
+                <MyRoleTree
+                  visible={this.state.visible}
+                  onClose={()=>this.onClose()}
+                />
             </div>
         )
     };
 }
 
+SysUser = Form.create({})(SysUser);
 export default SysUser;

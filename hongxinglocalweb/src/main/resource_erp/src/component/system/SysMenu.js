@@ -18,6 +18,7 @@ class SysMenu extends Component{
         super(props);
         this.state={
             loading:true, //加载动画
+            confirmLoading:false,
             treedata:null,//树查询数据参数
             visible:false, //Modle
             modalType:"up",
@@ -117,6 +118,7 @@ class SysMenu extends Component{
     handleOk(){
         const{form} = this.props;
         if(this.state.modalType==="up"){
+            this.state.confirmLoading = true;
             form.validateFields(
                 [
                     "menu_name",
@@ -146,7 +148,10 @@ class SysMenu extends Component{
                         .then(responseJson => {
                            if(responseJson>=1){
                                this.getData();
-                               this.setState({ visible: false,})
+                               this.setState({
+                                   visible: false,
+                                   confirmLoading:false,
+                               })
                                message.success("修改成功");
                            }else{
                                message.error(responseJson+"请求异常");
@@ -241,7 +246,7 @@ class SysMenu extends Component{
                     <Col className="gutter-row" span={18} offset={1}>
                         <Spin size="large" spinning={this.state.loading}>
                             <Card>
-                            <Button type="primary" icon="plus-circle">添加菜单</Button>
+                            <Button type="primary" icon="plus-circle" disabled>添加菜单</Button>
                             <Table columns={this.state.columns}
                                    dataSource={this.state.data}
                                     pagination={
@@ -259,6 +264,7 @@ class SysMenu extends Component{
                     title={
                         {add: "新增", up: "修改信息", see: "查看"}[this.state.modalType]
                     }
+                    confirmLoading={this.state.confirmLoading}
                     visible={this.state.visible}
                     onOk={()=>this.handleOk()}
                     onCancel={()=>this.handleCancel()}

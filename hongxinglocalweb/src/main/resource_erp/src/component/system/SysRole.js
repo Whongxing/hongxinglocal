@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Table,Tag,Divider,Tooltip,Icon,Avatar,Button } from 'antd';
+import {Table, Tag, Divider, Tooltip, Icon, Avatar, Button, Popconfirm} from 'antd';
 import  "../../static/css/App.css"
+import MyRoleTree from "../util/MyRoleTree";
 
 class SysRole extends Component{
     constructor(props) {
@@ -68,11 +69,12 @@ class SysRole extends Component{
 
                             >
                                 <Tooltip placement="top" title="查看">
-                                  <Icon type="eye" style={{color:'cadetblue'}}/>
+                                  <Icon type="eye" style={{color: 'cadetblue'}}/>
                                 </Tooltip>
                                 <Divider type="vertical"/>
                               </span>
                         );
+                        if (record.role_name !== "超级管理员") {
                         controls.push(
                             <span
                                 key="1"
@@ -80,7 +82,7 @@ class SysRole extends Component{
 
                             >
                                 <Tooltip placement="top" title="修改">
-                                  <Icon type="form" style={{color:'cadetblue'}}/>
+                                  <Icon type="form" style={{color: 'cadetblue'}}/>
                                 </Tooltip>
                                 <Divider type="vertical"/>
                               </span>
@@ -89,27 +91,37 @@ class SysRole extends Component{
                             <span
                                 key="2"
                                 className="control-button"
-
+                                onClick={() => this.RoleTree()}
                             >
                                 <Tooltip placement="top" title="分配权限">
-                                  <Icon type="crown" style={{color:'cadetblue'}}/>
+                                  <Icon type="crown" style={{color: 'cadetblue'}}/>
                                 </Tooltip>
                                 <Divider type="vertical"/>
                               </span>
                         );
-                        controls.push(
-                            <span
-                                key="3"
-                                className="control-button"
+                            controls.push(
+                                <span
+                                    key="3"
+                                    className="control-button"
 
-                            >
-                                <Tooltip placement="top" title="删除">
-                                  <Icon type="delete" style={{color:'red'}}/>
-                                </Tooltip>
+                                >
+                                  <Popconfirm
+                                      title="警告,确认删除吗?"
+                                      icon={<Icon type="question-circle-o" style={{color: 'red'}}/>}
+                                      // onConfirm={confirm}
+                                      // onCancel={cancel}
+                                      okText="Yes"
+                                      cancelText="No"
+                                  >
+                                        <Tooltip placement="top" title="删除">
+                                          <Icon type="delete" style={{color: 'red'}}/>
+                                        </Tooltip>
+                                  </Popconfirm>
                               </span>
-                        );
-                        return controls;
-                    }
+                            );
+                        }
+                            return controls;
+                     }
                 },
             ],
             data: [
@@ -130,11 +142,28 @@ class SysRole extends Component{
             ],
         }
     }
+
+    RoleTree=()=>{
+        this.setState({
+            visible:true,
+        })
+    }
+
+    onClose=()=>{
+        this.setState({
+            visible:false,
+        })
+    }
+
     render(){
         return (
             <div>
                 <Button type="primary" icon="plus-circle">添加角色</Button>
                 <Table columns={this.state.columns} dataSource={this.state.data} />
+                <MyRoleTree
+                    visible={this.state.visible}
+                    onClose={()=>this.onClose()}
+                />
             </div>
         )
     };

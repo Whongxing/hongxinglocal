@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface LogWater {
+public interface LogWaterMapper {
 
     @Insert("INSERT  INTO  hx_log" +
             "(log_name,log_date,log_type,log_desc,log_data) VALUES " +

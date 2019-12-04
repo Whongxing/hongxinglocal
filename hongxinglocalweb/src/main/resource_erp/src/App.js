@@ -119,7 +119,7 @@ class App extends Component{
                         <div className="logo" />
                         <SideMenu  theme={this.state.theme}  menu = {this.state.menu}/>
                     </Sider>
-                    <Layout  style={{overflow:"auto", height:"100vh"}}>
+                    <Layout  style={{ height:"100vh" }}>
                         <Header style={{ background: '#fff', padding: 0 }} >
                             <Icon
                                 className="trigger"
@@ -147,6 +147,7 @@ class App extends Component{
                         <Station   location={this.props.location}/>
                         <Content
                             style={{
+                                overflow:'auto',
                                 margin: '24px 16px',
                                 padding: 24,
                                 background: '#fff',
@@ -172,7 +173,9 @@ class App extends Component{
                                 <Route component={R403} />
                             </Switch>
                         </Content>
-                        <Footer style={{ textAlign: 'center' }}>admin ©2019 Created by WangHongxing</Footer>
+                        <span  style={{margin: '-3px 34%',}}>
+                          admin ©2019 Created by WangHongxing
+                        </span>
                     </Layout>
                 </Layout>
             </ConfigProvider>
