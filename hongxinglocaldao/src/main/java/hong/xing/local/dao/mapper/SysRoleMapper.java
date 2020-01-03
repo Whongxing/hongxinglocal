@@ -30,4 +30,14 @@ public interface SysRoleMapper {
             "</script>"
     })
     int newInsertRole(@Param("user_id") int user_id, @Param("list") List list);
+
+    @Select({
+            "<script>",
+            "select  id  from  hx_role  where role_name in",
+                "<foreach collection='list' item='newRoleId' open='(' separator=',' close=')'>",
+                "#{newRoleId}",
+                "</foreach>",
+            "</script>"
+    })
+    List<Integer> newSelectRole(@Param("list")ArrayList<String> list);
 }

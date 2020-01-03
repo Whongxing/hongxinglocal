@@ -284,18 +284,17 @@ class SysUser extends Component{
             mode:'cors',
             body: JSON.stringify(props)
         }
-        fetch(url, fetchOption);
-        //     .then(response => response.json())
-        //     .then(responseJson => {
-        //         console.log(responseJson.data);
-        //         this.setState({
-        //             myTree:[],  //初始化权限树
-        //             visible:false,
-        //             modalVisible:false,
-        //         })
-        //     }).catch(function (e) {
-        //     message.error("网络错误");
-        // });
+        fetch(url, fetchOption)
+            .then(response => response.json())
+            .then(responseJson => {
+                this.setState({
+                    myTree:[],  //初始化权限树
+                    visible:false,
+                    modalVisible:false,
+                })
+            }).catch(function (e) {
+            message.error("网络错误");
+        });
 
     }
 

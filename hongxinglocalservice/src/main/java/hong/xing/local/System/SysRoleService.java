@@ -31,12 +31,11 @@ public class SysRoleService {
     @Transactional(propagation= Propagation.REQUIRED,isolation = Isolation.READ_COMMITTED,rollbackFor = Throwable.class)
     public void  setMyTreeName(Map<String,Object> params){
          int  userId = Integer.parseInt(params.get("user_id").toString());
-//         sysRoleMapper.deleteMyRoleName(userId);
-          List<String> list = (List)params.get("val");
-
-        if (list != null && list.size() > 0) {
-            log.info(list.toString());
-            sysRoleMapper.newInsertRole(userId,list);
-        }
+            sysRoleMapper.deleteMyRoleName(userId);
+            ArrayList<String> list = (ArrayList)params.get("val");
+            List<Integer>  newlist = sysRoleMapper.newSelectRole(list);
+            if (list != null && list.size() > 0) {
+                sysRoleMapper.newInsertRole(userId,newlist);
+            }
     }
 }
