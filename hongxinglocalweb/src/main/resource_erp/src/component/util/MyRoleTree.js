@@ -3,12 +3,21 @@ import { Modal,Checkbox} from 'antd';
 
 const CheckboxGroup = Checkbox.Group;
 
-const plainOptions = ['超级管理员', '普通用户', '游客'];
 
 class MyRoleTree extends Component{
 
     constructor(props){
         super(props);
+        this.state={
+            indeterminate: true,
+            checkAll: false,
+            checkedList:this.props.mydata,
+        }
+    }
+
+    onOk=()=>{
+        console.log(this.state.checkedList);
+        this.props.onOk(this.state.checkedList);
     }
 
 
@@ -16,28 +25,45 @@ class MyRoleTree extends Component{
         this.props.onClose();
     }
 
+    onCheckAllChange = e => {
+        this.setState({
+            checkedList: e.target.checked ? this.props.data : [],
+            indeterminate: false,
+            checkAll: e.target.checked,
+        });
+    };
+
+    onChange = checkedList => {
+        this.setState({
+            checkedList,
+            indeterminate: !!checkedList.length && checkedList.length < this.props.data.length,
+            checkAll: checkedList.length === this.props.data.length,
+        });
+    };
+
     render() {
         return (
            <Modal
                title={"分配权限"}
                visible={this.props.visible}
-               onOk={this.onClose}
+               onOk={this.onOk}
                onCancel={this.onClose}
            >
                <div style={{ borderBottom: '1px solid #E9E9E9' }}>
                    <Checkbox
-                       // indeterminate={this.state.indeterminate}
-                       // onChange={this.onCheckAllChange}
-                       // checked={this.state.checkAll}
+                       indeterminate={this.state.indeterminate}
+                       onChange={this.onCheckAllChange}
+                       checked={this.state.checkAll}
                    >
                        全选
                    </Checkbox>
                </div>
                <br />
                <CheckboxGroup
-                   options={plainOptions}
-                   // value={this.state.checkedList}
-                   // onChange={this.onChange}
+                    defaultValue={this.props.mydata}
+                    options={this.props.data}
+                    // value={this.state.checkedList}
+                    onChange={this.onChange}
                />
            </Modal>
         )

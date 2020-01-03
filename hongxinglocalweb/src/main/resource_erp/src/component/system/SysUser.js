@@ -13,6 +13,7 @@ const formItemLayout = {
     labelCol: { span: 5 },
     wrapperCol: { span: 18 },
 };
+
 class SysUser extends Component{
     constructor(props) {
         super(props);
@@ -20,8 +21,18 @@ class SysUser extends Component{
             loading:true,
             modalVisible:false,
             visible:false,
+            refUserId:undefined,//作为重新赋值的user_id
+            data: [],
+            allTree:[],
+            myTree:[],
             modalType:"up",//modal的title
             columns:[
+                {
+                    title: '序号',
+                    dataIndex: 'key',
+                    key: 'key',
+                    align:'center',
+                },
                 {
                     title: '用户名',
                     dataIndex: 'user_name',
@@ -106,7 +117,7 @@ class SysUser extends Component{
                             <span
                                 key="2"
                                 className="control-button"
-                                onClick={()=>this.RoleTree()}
+                                onClick={()=>this.RoleTree(record)}
                             >
                                 <Tooltip placement="top" title="分配角色">
                                   <Icon type="crown" style={{color:'cadetblue'}}/>
@@ -138,15 +149,15 @@ class SysUser extends Component{
                     }
                 },
             ],
-            data: [
-            ],
         }
     }
 
     componentDidMount() {
         this.getData();
+        this.getAllRole();
     }
 
+    //表格初始数据
     getData=()=>{
         let url = config.baseUrl+"/Sys/getAllUser";
         let props = {
@@ -171,13 +182,67 @@ class SysUser extends Component{
         });
     }
 
-    RoleTree=()=>{
-        this.setState({
-            visible:true,
-        })
+    //加载组件的时候触发，加载所有的角色树信息
+    getAllRole=()=>{
+        let treeAllName=[];
+        let url = config.baseUrl+"/Sys/getAllTree";
+        let props = {
+        };
+        let fetchOption = {
+            method: 'POST',
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json',},
+            mode:'cors',
+            body: JSON.stringify(props)
+        }
 
+        fetch(url, fetchOption)
+            .then(response => response.json())
+            .then(responseJson => {
+                console.log(responseJson);
+                 responseJson.data.map((value,key)=>{
+                     treeAllName.push(value.role_name);
+                 })
+                 this.setState({
+                    allTree:treeAllName,
+                    })
+                console.log(this.state.allTree);
+            }).catch(function (e) {
+            message.error("网络错误");
+        });
     }
 
+    //点击权限图标时触发
+    RoleTree=(data)=>{
+        let url = config.baseUrl+"/Sys/getMyTree";
+        let props = {
+            user_name:data.user_name,
+        };
+        let fetchOption = {
+            method: 'POST',
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json',},
+            mode:'cors',
+            body: JSON.stringify(props)
+        }
+
+        fetch(url, fetchOption)
+            .then(response => response.json())
+            .then(responseJson => {
+                console.log(1);
+                console.log(responseJson.data);
+                responseJson.data.map((value,key)=>{
+                     this.state.myTree.push(value.role_name);
+                })
+                this.setState({
+                    refUserId:data.key,
+                    visible:true,
+                })
+                console.log(this.state.myTree);
+            }).catch(function (e) {
+            message.error("网络错误");
+        });
+    }
+
+    //添加用户事件
     handleOk=(data,type)=> {
         const {form} = this.props;
         if (type === "add") {
@@ -196,13 +261,43 @@ class SysUser extends Component{
         })
       }
 
+
+     //Modle关闭事件
     onClose=()=>{
         this.setState({
+            myTree:[],  //初始化权限树
             visible:false,
             modalVisible:false,
         })
     }
 
+    onOk=(val)=>{
+        let url = config.baseUrl+"/Sys/setMyTree";
+        let props = {
+            val:val,
+            user_id:this.state.refUserId
+        };
+        console.log(props);
+        let fetchOption = {
+            method: 'POST',
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json',},
+            mode:'cors',
+            body: JSON.stringify(props)
+        }
+        fetch(url, fetchOption);
+        //     .then(response => response.json())
+        //     .then(responseJson => {
+        //         console.log(responseJson.data);
+        //         this.setState({
+        //             myTree:[],  //初始化权限树
+        //             visible:false,
+        //             modalVisible:false,
+        //         })
+        //     }).catch(function (e) {
+        //     message.error("网络错误");
+        // });
+
+    }
 
     render(){
         const { getFieldDecorator } = this.props.form;
@@ -213,8 +308,8 @@ class SysUser extends Component{
                     <Input placeholder="用户名称"/>
 
                     <Divider type='vertical'/>
-                    <Button type="primary" icon="search"
-                            >搜索
+                    <Button type="primary" icon="search">
+                        搜索
                     </Button>
 
                     <Divider type='vertical'/>
@@ -291,8 +386,11 @@ class SysUser extends Component{
                 </Modal>
 
                 <MyRoleTree
-                  visible={this.state.visible}
-                  onClose={()=>this.onClose()}
+                   mydata={this.state.myTree}
+                   data={this.state.allTree}
+                   visible={this.state.visible}
+                   onOk={this.onOk.bind(this)}
+                   onClose={()=>this.onClose()}
                 />
             </div>
         )
