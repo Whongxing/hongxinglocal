@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import {Table, Tag, Divider, Tooltip, Icon, Avatar, Button, Popconfirm} from 'antd';
-import  "../../static/css/App.css"
+import {Table, Divider, Tooltip, Icon, Avatar, Button, Popconfirm, message} from 'antd';
+// import  "../../static/css/App.css"
 import MyRoleTree from "../util/MyRoleTree";
+import * as config from "../../mock/config";
 
 class SysRole extends Component{
     constructor(props) {
@@ -13,14 +14,20 @@ class SysRole extends Component{
                     key: 'id',
                     align:'center',
                     width:'2%',
-                    render:(text)=> {
-                        text = text===1?"cadetblue":"";
+                    render:(text,record)=> {
+                        text = record.role_name==="超级管理员"?"cadetblue":"";
                         return(
                             <div>
-                                 <Avatar size={26} style={{backgroundColor:text}} icon="user"/>
+                                 <Avatar size={28} style={{backgroundColor:text}} icon="user"/>
                             </div>
                         )
                     }
+                },
+                {
+                    title: '序号',
+                    dataIndex: 'key',
+                    key: 'key',
+                    align:'center',
                 },
                 {
                     title: '角色名',
@@ -36,26 +43,34 @@ class SysRole extends Component{
                     align:'center',
                 },
                 {
-                    title: 'Tags',
-                    key: 'tags',
-                    dataIndex: 'tags',
+                    title: '创建时间',
+                    dataIndex: 'role_cdate',
+                    key: 'cdate',
                     align:'center',
-                    render: tags => (
-                        <span>
-                        {tags.map(tag => {
-                            let color = tag.length > 5 ? 'geekblue' : 'green';
-                            if (tag === 'loser') {
-                                color = 'volcano';
-                            }
-                            return (
-                                <Tag color={color} key={tag}>
-                                    {tag.toUpperCase()}
-                                </Tag>
-                            );
-                        })}
-                      </span>
-                    ),
                 },
+
+                // {
+                //     title: 'Tags',
+                //     key: 'tags',
+                //     dataIndex: 'tags',
+                //     align:'center',
+                //     render: tags => (
+                //         <span>
+                //         {tags.map(tag => {
+                //             let color = tag.length > 5 ? 'geekblue' : 'green';
+                //             if (tag === 'loser') {
+                //                 color = 'volcano';
+                //             }
+                //             return (
+                //                 <Tag color={color} key={tag}>
+                //                     {tag.toUpperCase()}
+                //                 </Tag>
+                //             );
+                //         })}
+                //       </span>
+                //     ),
+                // },
+
                 {
                     title: '操作',
                     key: 'action',
@@ -125,22 +140,40 @@ class SysRole extends Component{
                 },
             ],
             data: [
-                {
-                    key: '1',
-                    role_id: 1,
-                    role_name: '超级管理员',
-                    role_remark: '终极权限，所有菜单权限',
-                    tags: ['nice', 'developer'],
-                },
-                {
-                    key: '2',
-                    role_id: 2,
-                    role_name: '普通用户',
-                    role_remark: '没有管理菜单的权限',
-                    tags: ['loser'],
-                },
             ],
         }
+    }
+
+    componentDidMount() {
+        this.getData();
+        this.getAllMenu();
+    }
+
+
+    getAllMenu=()=>{
+
+    }
+    getData=()=>{
+        let url = config.baseUrl+"/SysRole/selectRole";
+        let props = {
+        };
+        let fetchOption = {
+            method: 'POST',
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json',},
+            mode:'cors',
+            body: JSON.stringify(props)
+        }
+
+        fetch(url, fetchOption)
+            .then(response => response.json())
+            .then(responseJson => {
+                console.log(responseJson);
+                this.setState({
+                    data:responseJson.data,
+                })
+            }).catch(function (e) {
+            message.error("网络错误");
+        });
     }
 
     RoleTree=()=>{

@@ -227,7 +227,6 @@ class SysUser extends Component{
         fetch(url, fetchOption)
             .then(response => response.json())
             .then(responseJson => {
-                console.log(1);
                 console.log(responseJson.data);
                 responseJson.data.map((value,key)=>{
                      this.state.myTree.push(value.role_name);
@@ -269,6 +268,15 @@ class SysUser extends Component{
             visible:false,
             modalVisible:false,
         })
+    }
+    //Modal确定事件
+    onModalOk=()=>{
+       if(this.state.modalType==='add'){
+
+       }
+       if(this.state.modalType==='up'){
+
+       }
     }
 
     onOk=(val)=>{
@@ -325,7 +333,7 @@ class SysUser extends Component{
                         {add: "新增", up: "修改信息", see: "查看"}[this.state.modalType]
                     }
                     visible={this.state.modalVisible}
-                    onOk={()=>this.onClose()}
+                    onOk={()=>this.onModalOk()}
                     onCancel={()=>this.onClose()}
                 >
                     <Form.Item {...formItemLayout} label="用户名称">

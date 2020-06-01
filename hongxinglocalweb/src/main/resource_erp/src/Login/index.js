@@ -49,6 +49,7 @@ class Login extends Component{
                          if(responseJson.menu!==null&&responseJson.name!=null){
                              fakeAuth.authenticate(() => {
                                  localStorage.setItem("token", JSON.stringify(responseJson));
+                                 localStorage.setItem("user",responseJson.name);
                                  history.replace(from);
                              });
                            }else{

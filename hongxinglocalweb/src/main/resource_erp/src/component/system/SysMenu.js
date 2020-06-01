@@ -239,6 +239,14 @@ class SysMenu extends Component{
                                     })
                                     }
                                 </TreeNode>
+                                {/*<TreeNode icon={<Icon type="smile-o" />} title="日志审计" key="0-3">*/}
+                                {/*    {this.state.data.map((value,key)=>{*/}
+                                {/*        if(value.desc.toString().substr(0,3)==="0-3"&&value.path.toString().length>3){*/}
+                                {/*            return <TreeNode disabled icon={<Icon type="smile-o" />}  title={value.name} key={value.desc}/>*/}
+                                {/*        }*/}
+                                {/*    })*/}
+                                {/*    }*/}
+                                {/*</TreeNode>*/}
                             </TreeNode>
                         </Tree>
                      </Card>

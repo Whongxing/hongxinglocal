@@ -1,5 +1,7 @@
 package hong.xing.local.dao.mapper;
 
+import hong.xing.local.dao.mapperSql.SysRoleSql;
+import hong.xing.local.dao.mapperSql.SysUserSql;
 import hong.xing.local.entity.SysRole;
 import org.apache.ibatis.annotations.*;
 
@@ -12,6 +14,9 @@ public interface SysRoleMapper {
 
     @Select("select  role_name  from  hx_role ")
     List<SysRole> selectRoleAllname();
+
+    @SelectProvider(type = SysRoleSql.class, method = "selectRole")
+    List<SysRole>  selectRole(Map<String, Object> params);
 
     @Select("select  role_name  from  hx_role  WHERE  id  in" +
             "(select  role_id from  hx_user_role  where  user_id in" +

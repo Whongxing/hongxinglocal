@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
+import $ from 'jquery';
+import Axios from 'axios';
 import {
     Row, Col, Card, Upload, Button, Icon, Tag,
     Typography, Divider, Table, Avatar, Tooltip,message, Popconfirm
 } from 'antd';
+import * as config from "../../mock/config";
 
 
+const fetchOption = {
+    method: 'POST',
+    headers: {'Accept': 'application/json', 'Content-Type': 'application/json',},
+    mode:'cors',
+    body: JSON.stringify(params)
+}
 function getBase64(img, callback) {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
@@ -23,72 +32,66 @@ function beforeUpload(file) {
     return isJpgOrPng && isLt2M;
 }
 
-const data = [
-    {
-        key: '1',
-        file_name: 'date_test.jpg',
-        file_result: '尹肖：Hell！TestData',
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-    },
-];
+// const data = [
+//     {
+//         key: '1',
+//         file_name: 'date_test.jpg',
+//         file_result: '尹肖：Hell！TestData',
+//         address: 'New York No. 1 Lake Park',
+//         tags: ['nice', 'developer'],
+//     },
+// ];
 
 const { Title } = Typography;
-const fileList = [
-    {
-        uid: '-1',
-        name: 'xxx.png',
-        status: 'done',
-        url: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-        thumbUrl: 'https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png',
-    },
-    {
-        uid: '-2',
-        name: 'yyy.png',
-        status: 'error',
-    },
-];
 
-const props = {
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    listType: 'picture',
-    defaultFileList: [...fileList],
-};
 
 class Test extends Component{
      constructor(props){
          super(props);
          this.state={
+            filename:null,
             data:[],
             columns:[
-                 {
-                     title: '图片',
-                     dataIndex: 'file_img',
-                     key: 'img',
-                     render:(text)=> {
-                         text = text===1?"cadetblue":"";
-                         return(
-                             <div>
-                                 <Avatar shape="square" size={199} style={{backgroundColor:text}}
-                                         src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
-                                 />
-                             </div>
-                         )
-                     }
-                 },
+            //      {
+            //          title: '图片',
+            //          dataIndex: 'file_img',
+            //          key: 'img',
+            //          render:(text)=> {
+            //              text = text===1?"cadetblue":"";
+            //              return(
+            //                  <div>
+            //                      <Avatar shape="square" size={199} style={{backgroundColor:text}}
+            //                              src="https://zos.alipayobjects.com/rmsportal/jkjgkEfvpUPVyRjUImniVslZfWPnJuuZ.png"
+            //                      />
+            //                  </div>
+            //              )
+            //          }
+            //      },
                  {
                      title: '文件名称',
-                     dataIndex: 'file_name',
-                     key: 'name',
+                     dataIndex: 'key',
+                     key: 'key',
                      align:'center',
                      render: text => <a>{text}</a>,
                  },
                  {
-                     title: '文字识别结果',
-                     dataIndex: 'file_result',
-                     key: 'result',
+                     title: 'log_ID',
+                     dataIndex: 'log_id',
+                     key: 'log',
                      align:'center',
                  },
+                {
+                    title: '预处理切割数量',
+                    dataIndex: 'words_result_num',
+                    key: 'num',
+                    align:'center',
+                },
+                {
+                    title: '识别结果',
+                    dataIndex: 'words_result',
+                    key: 'result',
+                    align:'center',
+                },
                  {
                      title: '操作',
                      key: 'action',
@@ -99,7 +102,7 @@ class Test extends Component{
                                  <span
                                  key="0"
                                  className="control-button"
-                                 onClick={() => this.deleteTest()}
+                                 onClick={() => this.insertdata(record)}
                              >
                                        <Tooltip placement="top" title="存入数据库">
                                              <Icon type="cloud" style={{color: 'green'}}/>
@@ -107,7 +110,7 @@ class Test extends Component{
                                 </span>
                                     <Divider type={"vertical"}/>
                                  <span
-                                     key="0"
+                                     key="1"
                                      className="control-button"
                                  >
                                        <Tooltip placement="top" title="丢弃">
@@ -131,14 +134,64 @@ class Test extends Component{
          }
      }
 
+    insertdata=(record)=>{
+        let url = config.baseUrl;
+        let user = localStorage.getItem('user');
+        let params  = {
+            Fname :  record.key,
+            Flogid :  record.log_id,
+            Fcontent: record.words_result,
+            Fnumber : record.words_result_num,
+            Fuser : user,
+        }
+        fetch(url, fetchOption)
+            .then(response => response.json())
+            .then(responseJson => {
+                 message.success("Request")
+            }).catch(function (e) {
+            message.error("网络错误");
+        });
+
+     }
     searchTest=()=>{
-        this.setState({
-            data:data,
-        })
-    }
+         let url = config.baseUrl+"/Ocrapi/OcrResult";
+         let params = {
+           filename: this.state.filename,
+         }
+        // let fetchOption = {
+        //     method: 'POST',
+        //     headers: {'Accept': 'application/json', 'Content-Type': 'application/json',},
+        //     mode:'cors',
+        //     body: JSON.stringify(params)
+        // }
+        if(params.filename==null||params.filename===''){
+            message.warn("请上传图片");
+            return  false;
+        } else {
+            fetch(url, fetchOption)
+                .then(response => response.json())
+                .then(responseJson => {
+                    let  content = '';
+                    responseJson.words_result.map((userdata,key)=>{
+                        content = content+ userdata.words;
+                    })
+                    this.setState({
+                        data:[
+                            {
+                                key: this.state.filename,
+                               log_id: responseJson.log_id,
+                               words_result_num: responseJson.words_result_num,
+                                words_result : content,
+                            }
+                        ]
+                    })
+                }).catch(function (e) {
+                message.error("网络错误");
+            });
+        }
+     }
 
     handleChange = info => {
-
         if (info.file.status === 'uploading') {
             this.setState({ loading: true });
             return;
@@ -156,18 +209,18 @@ class Test extends Component{
     };
 
     deleteTest=()=>{
-        this.setState({
-            data:[],
-         })
+        // this.setState({
+        //     data:[],
+        //  })
     }
 
     beforeUploadChange = (file) => {
+        this.state.filename = file.name;
         const isJpg = file.type === 'image/jpeg';
         if (!isJpg) {
             message.error('只能上传jpg类型图片');
             return false;
         }
-
     };
     render() {
         const uploadButton = (
@@ -180,8 +233,8 @@ class Test extends Component{
         return (
             <div>
                 <Row gutter={16}>
-                    <Col span={6}>
-                        <Card>
+                    {/*<Col span={12}  style={{height:'10%', width: '30%'}}>*/}
+                        <Card  style={{width: '766px',height:'236px'}}>
                             <Upload
                                 name="avatar"
                                 listType="picture-card"
@@ -189,27 +242,32 @@ class Test extends Component{
                                 action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
                                 beforeUpload={(file) => this.beforeUploadChange(file)}
                                 onChange={this.handleChange}
-                                style={{display: "inline-block", width: '250px',height:'160px'}}
+                                style={{display: "inline-block"}}
                             >
                                 {
-                                    imageUrl ? <img src={imageUrl} alt="avatar" style={{ height:'100%',width: '100%' }} /> : uploadButton
+                                    imageUrl ? <img src={imageUrl} alt="avatar" style={{width: '700px',height:'166px'}}/> : uploadButton
                                 }
                             </Upload>
-                            <Button type="primary" style={{marginTop:'46%',marginLeft:'56%'}}
-                                                    onClick={()=>this.searchTest()}
-                            >
-                                <Icon type="pic-right" /> 开始测试
-                            </Button>
-                        </Card>
-                    </Col>
 
-                    <Col span={18}>
-                        <Card>
-                            <Title level={4}>测试结果</Title>
-                            <Divider/>
-                            <Table columns={this.state.columns} dataSource={this.state.data} pagination={ false }/>
+                        {/*</Card>*/}
+                    {/*</Col>*/}
+                    {/*<Col  span={12}>*/}
+
+                    {/*</Col>*/}
                         </Card>
-                    </Col>
+                        <Button type="primary" style={{marginTop:'0.3%',marginLeft:'53%'}}
+                                onClick={()=>this.searchTest()}
+                        >
+                            <Icon type="pic-right" /> 开始测试
+                        </Button>
+                </Row>
+
+                <Row gutter={16} style={{marginTop:"0.4%"}}>
+                    <Card>
+                        <Title level={4}>测试结果</Title>
+                        <Divider/>
+                        <Table columns={this.state.columns} dataSource={this.state.data} pagination={ false }/>
+                    </Card>
                 </Row>
             </div>
         )

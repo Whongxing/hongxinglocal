@@ -20,8 +20,16 @@ public class SysRoleService {
     @Resource
     private SysRoleMapper  sysRoleMapper;
 
+    public List<SysRole>  selectRole(Map<String,Object> params){
+        return  sysRoleMapper.selectRole(params);
+    }
+
     public List<SysRole>  getAllTreeName(){
       return   sysRoleMapper.selectRoleAllname();
+    }
+
+    public List<SysRole>  getAllMenuName(){
+        return   sysRoleMapper.selectRoleAllname();
     }
 
     public List<SysRole>  getMyTreeName(Map<String,Object> params){

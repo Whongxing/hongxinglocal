@@ -8,7 +8,7 @@ public class SysMenuSql {
         return new SQL() {
             {
                 String desc =(String) params.get("desc");
-                SELECT("menu_name as name,menu_img as img, menu_path as path ,menu_desc as 'desc',id as 'key',menu_status as 'status'");
+                SELECT("menu_name  as  name,menu_img as img, menu_path as path ,menu_desc as 'desc',id as 'key',menu_status as 'status'");
                 FROM("hx_menu");
                 if (desc!=null&&desc!="") {
                         WHERE("menu_desc like '"+desc+"-"+"%'");

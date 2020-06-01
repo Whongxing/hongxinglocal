@@ -17,7 +17,7 @@ class Station extends Component{
             <div className="Breadcrumb">
                 <Breadcrumb>
                     <Breadcrumb.Item>
-                        <Icon  type="environment" style={{color:'cadetblue'}}/>&nbsp;{this.props.children}
+                        <Icon  type="environment" style={{color:'cadetblue'}}/>&nbsp;欢迎登录ＯＣR管理系统！{this.props.children}
                     </Breadcrumb.Item>
                 </Breadcrumb>
             </div>

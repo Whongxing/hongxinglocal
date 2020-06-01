@@ -1,10 +1,8 @@
 package hong.xing.local.dao.mapper;
 import hong.xing.local.dao.mapperSql.SysMenuSql;
 import hong.xing.local.entity.SysMenu;
-import  org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.Update;
-import org.apache.ibatis.annotations.UpdateProvider;
+import hong.xing.local.entity.SysRole;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -16,6 +14,10 @@ public interface SysMenuMapper {
 //            "from hx_menu")
     @SelectProvider(type= SysMenuSql.class , method ="selectMeun" )
     List<SysMenu> select(Map<String,Object> params);
+
+
+    @Select("select  menu_name  from  hx_menu")
+    List<SysMenu> selectMenuAllname();
 
 //  @Update("update  hx_menu  set  menu_status=#{status} where menu_name=#{name}")
     @UpdateProvider(type= SysMenuSql.class , method ="updateMenu")

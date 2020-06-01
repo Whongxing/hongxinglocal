@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Divider,Collapse,Row,Col,Card,Icon,Avatar } from 'antd';
+import {Divider, Collapse, Row, Col, Card, Icon, Avatar, Tooltip} from 'antd';
 import EcharsHome  from './util/EcharsHome';
 import '../static/css/App.css'
 const { Panel } = Collapse;
@@ -11,14 +11,13 @@ class Home extends Component{
         return (
             <div>
                 <Row gutter={16}>
-                    <Col   span={4}  >
+                    <Col   span={4}>
                         <Card hoverable  style={{background:`url(${require("../static/images/card.jpg")})` }}>
                                 <div className='home_name'>1000条</div>
                                 <div  className='home_icon'>
                                     <Icon type="heat-map" />
                                     <div className='home_content'>服务调用</div>
                                 </div>
-
                         </Card>
                     </Col>
                     <Col span={4}>
@@ -61,8 +60,12 @@ class Home extends Component{
                         <Card className="gutter-row" style={{background:`url(${require("../static/images/c3.jpg")})` }}
                               hoverable
                               actions={[
-                                  <Icon type="setting" key="setting" />,
-                                  <Icon type="edit" key="edit" />,
+                                  <Tooltip placement="top" title="研发哥哥正在路上.....">
+                                  <Icon type="setting" key="setting" />
+                                  </Tooltip>,
+                                  <Tooltip placement="top" title="修改个人密码">
+                                    <Icon type="edit" key="edit" />
+                                  </Tooltip>,
                                   <Icon type="ellipsis" key="ellipsis" />,
                               ]}
                         >
