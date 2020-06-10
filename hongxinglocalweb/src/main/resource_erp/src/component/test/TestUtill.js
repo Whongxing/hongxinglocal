@@ -8,12 +8,6 @@ import {
 import * as config from "../../mock/config";
 
 
-const fetchOption = {
-    method: 'POST',
-    headers: {'Accept': 'application/json', 'Content-Type': 'application/json',},
-    mode:'cors',
-    body: JSON.stringify(params)
-}
 function getBase64(img, callback) {
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
@@ -135,19 +129,25 @@ class Test extends Component{
      }
 
     insertdata=(record)=>{
-        let url = config.baseUrl;
+        let url = config.baseUrl+"/Ocrapi/insertWater";
         let user = localStorage.getItem('user');
         let params  = {
             Fname :  record.key,
-            Flogid :  record.log_id,
+            Flogid :  record.log_id.toString(),
             Fcontent: record.words_result,
             Fnumber : record.words_result_num,
             Fuser : user,
         }
+        let fetchOption = {
+            method: 'POST',
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json',},
+            mode:'cors',
+            body: JSON.stringify(params)
+        }
         fetch(url, fetchOption)
             .then(response => response.json())
             .then(responseJson => {
-                 message.success("Request")
+                 message.success("成功存入数据库")
             }).catch(function (e) {
             message.error("网络错误");
         });
@@ -158,12 +158,12 @@ class Test extends Component{
          let params = {
            filename: this.state.filename,
          }
-        // let fetchOption = {
-        //     method: 'POST',
-        //     headers: {'Accept': 'application/json', 'Content-Type': 'application/json',},
-        //     mode:'cors',
-        //     body: JSON.stringify(params)
-        // }
+        let fetchOption = {
+            method: 'POST',
+            headers: {'Accept': 'application/json', 'Content-Type': 'application/json',},
+            mode:'cors',
+            body: JSON.stringify(params)
+        }
         if(params.filename==null||params.filename===''){
             message.warn("请上传图片");
             return  false;

@@ -246,6 +246,7 @@ class SysUser extends Component{
         const {form} = this.props;
         if (type === "add") {
             form.resetFields();
+            message.success("添加成功")
         } else {
             form.setFieldsValue({
                 user_name:data.user_name,

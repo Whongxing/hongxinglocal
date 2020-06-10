@@ -14,6 +14,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 public class HongxinglocalwebApplication {
 
     public static void main(String[] args) {
+
         SpringApplication.run(HongxinglocalwebApplication.class, args);
     }
 

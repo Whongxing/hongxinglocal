@@ -31,7 +31,7 @@ const option = {
         }
     },
     legend: {
-        data:['流量','降雨量'],
+        data:['准确量','调用量'],
         x: 'left'
     },
     dataZoom: [
@@ -114,12 +114,12 @@ const option = {
     ],
     yAxis: [
         {
-            name: '流量(m^3/s)',
+            name: '准确量(次)',
             type: 'value',
             max: 500
         },
         {
-            name: '降雨量(mm)',
+            name: '调用量(次)',
             nameLocation: 'start',
             max: 5,
             type: 'value',
@@ -128,7 +128,7 @@ const option = {
     ],
     series: [
         {
-            name:'流量',
+            name:'准确量',
             type:'line',
             animation: false,
             areaStyle: {
@@ -149,7 +149,7 @@ const option = {
             ]
         },
         {
-            name:'降雨量',
+            name:'调用量',
             type:'line',
             yAxisIndex:1,
             animation: false,
@@ -176,11 +176,11 @@ const option = {
 class EcharsHome extends React.Component {
 
 
-    render() {
+    render(){
         return (
-                <ReactEcharts option={option}
-                              style={{height:'340%'}}
-                 />
+            <ReactEcharts option={option}
+                          style={{height:'340%'}}
+            />
         )
     }
 }

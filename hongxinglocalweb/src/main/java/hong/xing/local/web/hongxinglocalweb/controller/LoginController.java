@@ -3,18 +3,13 @@ package hong.xing.local.web.hongxinglocalweb.controller;
 import hong.xing.local.System.LoginUserService;
 import hong.xing.local.entity.ResponseLogin;
 import hong.xing.local.entity.SysMenu;
-import hong.xing.local.entity.SysUser;
 import hong.xing.local.web.hongxinglocalweb.LoginContext.LoginContextUser;
-import hong.xing.local.web.hongxinglocalweb.annotation.Aspect.LogType;
-import hong.xing.local.web.hongxinglocalweb.annotation.WriteLog;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
-
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 

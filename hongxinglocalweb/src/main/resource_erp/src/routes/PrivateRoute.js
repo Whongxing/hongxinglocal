@@ -35,6 +35,7 @@ export const fakeAuth = {
     },
     signout(cb) {
         localStorage.removeItem("token");
+        localStorage.removeItem("user");
         setTimeout(cb, 100);
     }
 };

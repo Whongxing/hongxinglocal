@@ -223,7 +223,7 @@ class SysMenu extends Component{
                         >
                             <TreeNode icon={<Icon type="smile-o" />} title="全部菜单" key="0">
                             <TreeNode icon={<Icon type="smile-o" />} title="首页" key="0-0"/>
-                                <TreeNode icon={<Icon type="smile-o" />} title="权限管理" key="0-1">
+                                <TreeNode icon={<Icon type="smile-o" />} title="报表记录" key="0-1">
                                     {this.state.data.map((value,key)=>{
                                         if(value.desc.toString().substr(0,3)==="0-1"&&value.path.toString().length>3){
                                             return <TreeNode disabled icon={<Icon type="smile-o" />}  title={value.name} key={value.desc}/>
@@ -231,7 +231,7 @@ class SysMenu extends Component{
                                     })
                                     }
                                 </TreeNode>
-                                <TreeNode icon={<Icon type="smile-o" />} title="报表查询" key="0-2">
+                                <TreeNode icon={<Icon type="smile-o" />} title="权限管理" key="0-2">
                                     {this.state.data.map((value,key)=>{
                                         if(value.desc.toString().substr(0,3)==="0-2"&&value.path.toString().length>3){
                                             return <TreeNode disabled icon={<Icon type="smile-o" />}  title={value.name} key={value.desc}/>
@@ -239,14 +239,23 @@ class SysMenu extends Component{
                                     })
                                     }
                                 </TreeNode>
-                                {/*<TreeNode icon={<Icon type="smile-o" />} title="日志审计" key="0-3">*/}
-                                {/*    {this.state.data.map((value,key)=>{*/}
-                                {/*        if(value.desc.toString().substr(0,3)==="0-3"&&value.path.toString().length>3){*/}
-                                {/*            return <TreeNode disabled icon={<Icon type="smile-o" />}  title={value.name} key={value.desc}/>*/}
-                                {/*        }*/}
-                                {/*    })*/}
-                                {/*    }*/}
-                                {/*</TreeNode>*/}
+                                <TreeNode icon={<Icon type="smile-o" />} title="日志审计" key="0-3">
+                                    {this.state.data.map((value,key)=>{
+                                        if(value.desc.toString().substr(0,3)==="0-4"&&value.path.toString().length>3){
+                                            return <TreeNode disabled icon={<Icon type="smile-o" />}  title={value.name} key={value.desc}/>
+                                        }
+                                    })
+                                    }
+                                </TreeNode>
+                                <TreeNode icon={<Icon type="smile-o" />} title="测试工具"  key="0-4"/>
+                                <TreeNode icon={<Icon type="smile-o" />} title="监控管理" key="0-5">
+                                    {this.state.data.map((value,key)=>{
+                                        if(value.desc.toString().substr(0,3)==="0-4"&&value.path.toString().length>3){
+                                            return <TreeNode disabled icon={<Icon type="smile-o" />}  title={value.name} key={value.desc}/>
+                                        }
+                                    })
+                                    }
+                                </TreeNode>
                             </TreeNode>
                         </Tree>
                      </Card>

@@ -34,7 +34,6 @@ public class OCRdiscern {
             // 注意这里仅为了简化编码每一次请求都去获取access_token，线上环境access_token有过期时间， 客户端可自行缓存，过期后重新获取。
             String accessToken = "24.e9bdfa2339c85dd2abda07c8c08ad1b0.2592000.1593563087.282335-20163785";
             String result = HttpUtil.post(url, accessToken, param);
-            System.out.println(result);
             return result;
         } catch (Exception e) {
             e.printStackTrace();

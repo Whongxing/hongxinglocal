@@ -5,7 +5,7 @@ import * as config from "../../mock/config";
 import ReactJson from "react-json-view";
 
 
-class TableOne extends Component{
+class TableTwo extends Component{
     constructor(props){
         super(props);
         this.state={
@@ -59,7 +59,7 @@ class TableOne extends Component{
                             </div>
                         )
                     },
-                     // ...this.getColumnSearchProps('c_date'),
+                    // ...this.getColumnSearchProps('c_date'),
                 },
                 {
                     title: '操作人',
@@ -67,42 +67,6 @@ class TableOne extends Component{
                     key: 'user',
                     ...this.getColumnSearchProps('f_user'),
                 },
-                {
-                    title: '打标操作',
-                    dataIndex: 'f_status',
-                    key: 'f_status',
-                    align: 'center',
-                    render:(text)=>{
-                        return (
-                        <Radio.Group defaultValue={text} buttonStyle="solid" size={"small"}  onChange={(e)=>this.setRemark_value(e)}>
-                            <Radio.Button value="1">正确</Radio.Button>
-                            <Radio.Button value="-1">不正确</Radio.Button>
-                        </Radio.Group>
-                        )
-                    }
-                },
-                {
-                    title: '提交',
-                    dataIndex: 'submit',
-                    key: 'submit',
-                    align: 'center',
-                    render: (text,record)=>{
-                        return(
-                            <Popconfirm
-                                placement="topLeft"
-                                title="是否确认提交"
-                                onConfirm={()=>this.submitRemark(record)}
-                                okText="确认"
-                                cancelText="取消"
-                            >
-                                <Tooltip placement="topLeft" title="提交操作">
-                                  <Icon type="issues-close"  style={{color:'red'}}/>
-                                </Tooltip>
-                            </Popconfirm>
-                        )
-                    }}
-
-
             ]
         }
     }
@@ -112,49 +76,10 @@ class TableOne extends Component{
     }
 
 
-    submitRemark=(value)=>{
-        if(this.state.remark_value===0){
-            message.warn("请标记图片识别信息")
-        }else{
-            let url = config.baseUrl+"/Ocrapi/UpdateRemark";
-            let props = {
-                f_status : this.state.remark_value,
-                log_id :  value.log_id,
-            };
-            let fetchOption = {
-                method: 'POST',
-                headers: {'Accept': 'application/json', 'Content-Type': 'application/json',},
-                mode:'cors',
-                body: JSON.stringify(props)
-            }
-            fetch(url, fetchOption)
-                .then(response => response.json())
-                .then(responseJson => {
-                    console.log(responseJson.data);
-                    this.getData();
-
-                }).catch(function (e) {
-                message.error("网络错误");
-            });
-        }
-    }
-
-    setRemark_value=(e)=>{
-         const  mas = e.target.value==="1"?"识别正确":"识别错误";
-         if(mas === "识别正确"){
-             this.state.remark_value = 1;
-             message.success("图片被标记为"+mas);
-         }
-         else {
-             this.state.remark_value = -1;
-             message.error("图片被标记为"+mas);
-         }
-    }
-
     getData=()=>{
         let url = config.baseUrl+"/Ocrapi/selectWater";
         let props = {
-             tf_status:0,
+            tf_status : 1,
         };
         let fetchOption = {
             method: 'POST',
@@ -168,7 +93,7 @@ class TableOne extends Component{
             .then(responseJson => {
                 console.log(responseJson.data);
                 this.setState({
-                    data:responseJson.data,
+                        data:responseJson.data,
                     }
                 )
             }).catch(function (e) {
@@ -249,4 +174,4 @@ class TableOne extends Component{
     }
 }
 
-export default TableOne;
+export default TableTwo;
